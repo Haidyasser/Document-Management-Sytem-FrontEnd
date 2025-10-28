@@ -1,1 +1,65 @@
-.auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(135deg,#1e88e5,#1565c0)}.auth-panel{width:100%;max-width:1080px;display:grid;grid-template-columns:1fr 1fr;background:#fff;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.18);overflow:hidden}.promo-section{position:relative;color:#fff;padding:56px 48px;background:#1976d2;isolation:isolate}.promo-section::before,.promo-section::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(120% 180% at -10% 0%,#0b4aa1 0 34%,transparent 35%),radial-gradient(110% 160% at 10% 40%,#2196f3 0 38%,transparent 39%),radial-gradient(120% 160% at 30% 90%,#64b5f6 0 36%,transparent 37%),linear-gradient(180deg,#1565c0,#1e88e5)}.promo-title{font-size:34px;line-height:1.2;margin:0 0 10px;font-weight:600}.promo-sub{margin:0 0 18px;font-size:16px;opacity:.95}.promo-url{margin:40px 0 0;font-size:12px;opacity:.9}.form-section{display:flex;align-items:center;justify-content:center;padding:40px;background:#fff}.form-frame{width:100%;max-width:420px;border:2.4px solid #9ad5ff;border-radius:12px;padding:28px 28px 32px}.form-title{margin:4px 0 18px;color:#2d3a4a;text-align:center;font-size:28px;font-weight:600}.login-form{display:flex;flex-direction:column;gap:14px}.input-wrapper{display:flex;flex-direction:column;gap:6px}.text-label{font-size:13px;color:#455a64}.text-input{width:100%;border:0;background:#f3f6fb;border-radius:24px;padding:12px 16px;font-size:14px;outline:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)}.text-input:focus{box-shadow:inset 0 0 0 2px #64b5f6}.validation-text{color:#d32f2f;font-size:12px}.support-row{display:flex;align-items:center;justify-content:space-between;margin-top:2px}.remember-toggle{display:flex;gap:8px;align-items:center;color:#607d8b;font-size:13px}.muted-link{color:#1976d2;text-decoration:none;font-size:13px}.muted-link:hover{text-decoration:underline}.submit-btn{border:0;border-radius:24px;background:linear-gradient(180deg,#64b5f6,#2196f3);color:#fff;padding:12px 18px;font-weight:600;cursor:pointer;transition:transform .06s ease,filter .2s ease}.submit-btn:disabled{opacity:.6;cursor:not-allowed}.submit-btn:active{transform:translateY(1px)}.below-actions{display:flex;justify-content:center;gap:6px;margin-top:8px;font-size:13px}.secondary-link{color:#1976d2;text-decoration:none}.secondary-link:hover{text-decoration:underline}.error-text{color:#d32f2f;font-size:13px;margin-top:2px}.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}@media (max-width:960px){.auth-panel{grid-template-columns:1fr}.promo-section{min-height:240px}.form-section{padding:32px}.form-frame{max-width:520px}}
+.auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(135deg,#1e88e5,#1565c0)}.auth-panel{width:100%;max-width:1080px;display:grid;grid-template-columns:1fr 1fr;background:#fff;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.18);overflow:hidden}.promo-section{position:relative;color:#fff;padding:56px 48px;background:#1976d2;isolation:isolate}.promo-section::before,.promo-section::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(120% 180% at -10% 0%,#0b4aa1 0 34%,transparent 35%),radial-gradient(110% 160% at 10% 40%,#2196f3 0 38%,transparent 39%),radial-gradient(120% 160% at 30% 90%,#64b5f6 0 36%,transparent 37%),linear-gradient(180deg,#1565c0,#1e88e5)}.promo-title{font-size:34px;line-height:1.2;margin:0 0 10px;font-weight:600}.promo-sub{margin:0 0 18px;font-size:16px;opacity:.95}.promo-url{margin:40px 0 0;font-size:12px;opacity:.9}.form-section{display:flex;align-items:center;justify-content:center;padding:40px;background:#fff}.form-frame{width:100%;max-width:420px;border:2.4px solid #9ad5ff;border-radius:12px;padding:28px 28px 32px}.form-title{margin:4px 0 18px;color:#2d3a4a;text-align:center;font-size:28px;font-weight:600}.login-form{display:flex;flex-direction:column;gap:14px}.input-wrapper{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}.text-label{font-size:13px;color:#455a64}.text-input{width:100%;border:0;background:#f3f6fb;border-radius:24px;padding:12px 16px;font-size:14px;outline:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)}.text-input:focus{box-shadow:inset 0 0 0 2px #64b5f6}.text-input::placeholder{color:#bfbfbf}.validation-text{color:#d32f2f;font-size:12px;margin-top:6px}.support-row{display:flex;align-items:center;justify-content:space-between;margin-top:2px}.remember-toggle{display:flex;gap:8px;align-items:center;color:#607d8b;font-size:13px}.muted-link{color:#1976d2;text-decoration:none;font-size:13px}.muted-link:hover{text-decoration:underline}.submit-btn{border:0;border-radius:24px;background:linear-gradient(180deg,#64b5f6,#2196f3);color:#fff;padding:12px 18px;font-weight:600;cursor:pointer;transition:transform .06s ease,filter .2s ease}.submit-btn:disabled{opacity:.6;cursor:not-allowed}.submit-btn:active{transform:translateY(1px)}.below-actions{display:flex;justify-content:center;gap:6px;margin-top:8px;font-size:13px}.secondary-link{color:#1976d2;text-decoration:none}.secondary-link:hover{text-decoration:underline}.error-text{color:#d32f2f;font-size:13px;margin-top:2px}.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}@media (max-width:960px){.auth-panel{grid-template-columns:1fr}.promo-section{min-height:240px}.form-section{padding:32px}.form-frame{max-width:520px}}/* Ensure layout doesn't overflow the rounded panel */
+.auth-panel,
+.form-frame {
+  box-sizing: border-box;
+}
+
+/* Keep the form frame inside the panel and limit its width */
+.form-frame {
+  width: 100%;
+  max-width: 520px; /* adjust as needed */
+  padding: 28px;
+}
+
+/* Space rows and avoid overflow */
+.input-wrapper {
+  margin-bottom: 16px;
+  display: block;
+}
+
+/* Make inputs fit their container */
+.text-input {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box; /* include padding in width */
+  padding: 12px 16px;
+  border-radius: 999px; /* pill shape as in design */
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #f5f8fb;
+  font-size: 14px;
+  outline: none;
+}
+
+/* Validation block spacing */
+.validation-text {
+  margin-top: 6px;
+  color: #d9534f;
+  font-size: 13px;
+}
+
+/* Make the submit button fit the box */
+.submit-btn {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* Keep support row elements aligned without pushing layout */
+.support-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* Prevent long text from overflowing */
+.auth-screen,
+.auth-panel,
+.form-section,
+.promo-section {
+  overflow: hidden;
+  box-sizing: border-box;
+}
