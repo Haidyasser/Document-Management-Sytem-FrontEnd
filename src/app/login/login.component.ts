@@ -9,6 +9,7 @@ import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrl: './login.component.css',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule]
 })
@@ -20,7 +21,8 @@ export class LoginComponent {
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      rememberMe: [false]
     });
   }
 
@@ -28,7 +30,8 @@ export class LoginComponent {
     if (this.form.invalid) return;
     this.loading = true;
     this.error = null;
-    this.auth.login(this.form.value).subscribe({
+    const { email, password } = this.form.value as { email: string; password: string };
+    this.auth.login({ email, password }).subscribe({
       next: () => this.router.navigate(['/']),
       error: err => { this.error = err?.message || 'Login failed'; this.loading = false; }
     });

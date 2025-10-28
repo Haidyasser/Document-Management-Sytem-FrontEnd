@@ -1,33 +1,75 @@
-<h2>Register</h2>
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <div>
-    <label>Name</label><br/>
-    <input formControlName="name" />
-    <div *ngIf="form.get('name')?.touched && form.get('name')?.invalid">
-      <small *ngIf="form.get('name')?.errors?.['required']">Name required</small>
-    </div>
+<div class="auth-screen">
+  <div class="auth-panel">
+    <section class="promo-section" aria-label="Welcome message">
+      <h2 class="promo-title">Document Management</h2>
+      <p class="promo-sub">Welcome to DMS</p>
+    </section>
+
+    <section class="form-section" aria-label="Sign up form">
+      <div class="form-frame">
+        <h3 class="form-title">Sign Up</h3>
+        <form class="login-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          <div class="input-row">
+            <div class="input-wrapper">
+              <label class="text-label" for="firstName">First name</label>
+              <input id="firstName" class="text-input" formControlName="firstName" type="text" placeholder="First name" />
+              <div *ngIf="form.get('firstName')?.touched && form.get('firstName')?.invalid" class="validation-text">
+                <small *ngIf="form.get('firstName')?.errors?.['required']">First name required</small>
+                <small *ngIf="form.get('firstName')?.errors?.['server'] as e">{{ e }}</small>
+              </div>
+            </div>
+            <div class="input-wrapper">
+              <label class="text-label" for="lastName">Last name</label>
+              <input id="lastName" class="text-input" formControlName="lastName" type="text" placeholder="Last name" />
+              <div *ngIf="form.get('lastName')?.touched && form.get('lastName')?.invalid" class="validation-text">
+                <small *ngIf="form.get('lastName')?.errors?.['required']">Last name required</small>
+                <small *ngIf="form.get('lastName')?.errors?.['server'] as e">{{ e }}</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-wrapper">
+            <label class="text-label" for="nid">NID</label>
+            <input id="nid" class="text-input" formControlName="nid" type="text" placeholder="National ID" />
+            <div *ngIf="form.get('nid')?.touched && form.get('nid')?.invalid" class="validation-text">
+              <small *ngIf="form.get('nid')?.errors?.['required']">NID required</small>
+              <small *ngIf="form.get('nid')?.errors?.['server'] as e">{{ e }}</small>
+            </div>
+          </div>
+
+          <div class="input-wrapper">
+            <label class="text-label" for="email">Email</label>
+            <input id="email" class="text-input" formControlName="email" type="email" placeholder="name@example.com" />
+            <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="validation-text">
+              <small *ngIf="form.get('email')?.errors?.['required']">Email required</small>
+              <small *ngIf="form.get('email')?.errors?.['email']">Invalid email</small>
+              <small *ngIf="form.get('email')?.errors?.['server'] as e">{{ e }}</small>
+            </div>
+          </div>
+
+          <div class="input-wrapper">
+            <label class="text-label" for="password">Password</label>
+            <input id="password" class="text-input" formControlName="password" type="password" placeholder="••••••" />
+            <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="validation-text">
+              <small *ngIf="form.get('password')?.errors?.['required']">Password required</small>
+              <small *ngIf="form.get('password')?.errors?.['minlength']">Min 6 characters</small>
+              <small *ngIf="form.get('password')?.errors?.['server'] as e">{{ e }}</small>
+            </div>
+          </div>
+
+          <div *ngIf="error" class="error-text" role="alert">{{ error }}</div>
+          <ul *ngIf="validationSummary.length" class="validation-text" style="margin:6px 0 0 16px;">
+            <li *ngFor="let item of validationSummary">{{ item }}</li>
+          </ul>
+
+          <button type="submit" class="submit-btn" [disabled]="loading || form.invalid">Create Account</button>
+
+          <div class="below-actions">
+            <span>Already have an account?</span>
+            <a class="secondary-link" routerLink="/login">Sign In</a>
+          </div>
+        </form>
+      </div>
+    </section>
   </div>
-
-  <div>
-    <label>Email</label><br/>
-    <input formControlName="email" type="email"/>
-    <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
-      <small *ngIf="form.get('email')?.errors?.['required']">Email required</small>
-      <small *ngIf="form.get('email')?.errors?.['email']">Invalid email</small>
-    </div>
-  </div>
-
-  <div>
-    <label>Password</label><br/>
-    <input formControlName="password" type="password"/>
-    <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
-      <small *ngIf="form.get('password')?.errors?.['required']">Password required</small>
-      <small *ngIf="form.get('password')?.errors?.['minlength']">Min 6 chars</small>
-    </div>
-  </div>
-
-  <div *ngIf="error" style="color:red">{{ error }}</div>
-
-  <button type="submit" [disabled]="loading">Register</button>
-  <a routerLink="/login" style="margin-left:10px">Back to Login</a>
-</form>
+</div>
