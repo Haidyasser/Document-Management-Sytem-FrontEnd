@@ -1,0 +1,131 @@
+/* Layout */
+.workspace-container {
+  display: flex;
+  height: 100vh;
+  background-color: #f8fafc;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #0a2e5c;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.nav-links {
+  list-style: none;
+  padding: 0;
+}
+
+.nav-links li {
+  padding: 12px 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.nav-links li:hover,
+.nav-links .active {
+  background-color: #1e3a8a;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top Bar */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.right-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+/* Workspaces Section */
+.workspaces {
+  padding: 40px;
+}
+
+.workspace-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.create-btn {
+  background-color: #2563eb;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.create-btn:hover {
+  background-color: #1e40af;
+}
+
+/* Folder Grid */
+.workspace-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.folder-card {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.folder-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.folder-icon {
+  font-size: 50px;
+  color: #9ca3af;
+  margin-bottom: 10px;
+}
+
+.folder-card p {
+  font-weight: 500;
+  color: #111827;
+}

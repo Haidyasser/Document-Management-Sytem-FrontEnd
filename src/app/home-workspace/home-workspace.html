@@ -1,0 +1,44 @@
+<div class="workspace-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2 class="logo">DMS</h2>
+    <ul class="nav-links">
+      <li><i class="fa fa-home"></i> Dashboard</li>
+      <li class="active"><i class="fa fa-folder"></i> Workspaces</li>
+      <li><i class="fa fa-file"></i> Documents</li>
+      <li><i class="fa fa-search"></i> Search</li>
+      <li><i class="fa fa-user"></i> Profile</li>
+      <li><i class="fa fa-cog"></i> Settings</li>
+      <li><i class="fa fa-power-off"></i> Logout</li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <h1>Document Management System</h1>
+      <div class="right-icons">
+        <i class="fa fa-bell"></i>
+        <img src="https://i.pravatar.cc/40" alt="User" class="avatar">
+      </div>
+    </header>
+
+    <!-- Workspaces -->
+    <section class="workspaces">
+      <div class="workspace-header">
+        <h2>Workspaces</h2>
+        <button class="create-btn">
+          <i class="fa fa-plus"></i> Create Workspace
+        </button>
+      </div>
+
+      <div class="workspace-grid">
+        <div class="folder-card" *ngFor="let folder of folders">
+          <i class="fa fa-folder folder-icon"></i>
+          <p>{{ folder.name }}</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

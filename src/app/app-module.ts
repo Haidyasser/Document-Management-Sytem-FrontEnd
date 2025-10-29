@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { HomeWorkspaceComponent } from './home-workspace/home-workspace';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { RegisterComponent } from './register/register.component';
     ReactiveFormsModule,
     LoginComponent,
     RegisterComponent,
+    HomeWorkspaceComponent,
   ],
   providers: [
     provideBrowserGlobalErrorListeners()
