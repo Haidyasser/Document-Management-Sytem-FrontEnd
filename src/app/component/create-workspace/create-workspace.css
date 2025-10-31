@@ -1,0 +1,84 @@
+.workspace-container {
+  display: flex;
+  height: 100vh;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.workspace-content {
+  flex: 1;
+  padding: 2rem;
+  background: #f7f9fb;
+  overflow-y: auto;
+}
+
+.form-card {
+  max-width: 600px;
+  background: #fff;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #004aad;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+input,
+textarea,
+select {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+textarea {
+  resize: none;
+}
+
+small {
+  color: red;
+  font-size: 0.8rem;
+}
+
+.access-options {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.btn {
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn.cancel {
+  background-color: #ccc;
+  color: #333;
+}
+
+.btn.create {
+  background-color: #004aad;
+  color: white;
+}

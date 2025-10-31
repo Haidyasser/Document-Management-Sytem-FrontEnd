@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { SidebarComponent } from "../sidebar/sidebar.component";
-import { TopBarComponent } from "../top-bar/top-bar.component"; // 1. Import CommonModule
+import { TopBarComponent } from "../top-bar/top-bar.component";
 
 @Component({
   selector: 'app-home-workspace',
-  standalone: true, // 2. Make the component standalone
-  imports: [CommonModule, SidebarComponent, TopBarComponent], // 3. Import CommonModule here
+  standalone: true,
+  imports: [CommonModule, SidebarComponent, TopBarComponent],
   templateUrl: './home-workspace.html',
   styleUrls: ['./home-workspace.css']
 })
@@ -17,4 +18,10 @@ export class HomeWorkspaceComponent {
     { name: 'Financial' },
     { name: 'Legal' },
   ];
+
+  constructor(private router: Router) {}
+
+  onCreateWorkspace() {
+    this.router.navigate(['/create-workspace']);
+  }
 }

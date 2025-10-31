@@ -1,0 +1,53 @@
+<div class="workspace-container">
+  <app-sidebar></app-sidebar>
+  <div class="workspace-content">
+    <div class="form-card">
+      <h2>Create New Workspace</h2>
+
+      <form [formGroup]="workspaceForm" (ngSubmit)="onSubmit()">
+        <!-- Workspace Name -->
+        <div class="form-group">
+          <label for="name">Workspace Name</label>
+          <input id="name" type="text" formControlName="name" placeholder="Enter workspace name" />
+          <small *ngIf="workspaceForm.get('name')?.invalid && workspaceForm.get('name')?.touched">
+            Workspace name is required.
+          </small>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" rows="3" formControlName="description" placeholder="Write a short description"></textarea>
+        </div>
+
+        <!-- Type -->
+        <div class="form-group">
+          <label for="type">Workspace Type</label>
+          <select id="type" formControlName="type">
+            <option value="">Select Type</option>
+            <option value="School">School</option>
+            <option value="Internship">Internship</option>
+            <option value="Project">Project</option>
+            <option value="Personal">Personal</option>
+          </select>
+        </div>
+
+        <!-- Access -->
+        <div class="form-group">
+          <label>Access</label>
+          <div class="access-options">
+            <label><input type="radio" value="Private" formControlName="access" /> Private</label>
+            <label><input type="radio" value="Shared" formControlName="access" /> Shared</label>
+            <label><input type="radio" value="Public" formControlName="access" /> Public</label>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-actions">
+          <button type="button" class="btn cancel" (click)="onCancel()">Cancel</button>
+          <button type="submit" class="btn create" [disabled]="workspaceForm.invalid">Create Workspace</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
