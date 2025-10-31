@@ -9,6 +9,7 @@ import { LoginComponent } from './component/login/login.component';
 import { RegisterComponent } from './component/register/register.component';
 import { HomeWorkspaceComponent } from './component/home-workspace/home-workspace';
 import { SidebarComponent } from './component/sidebar/sidebar.component';
+import { TopBarComponent } from './component/top-bar/top-bar.component';
 
 @NgModule({
   declarations: [
