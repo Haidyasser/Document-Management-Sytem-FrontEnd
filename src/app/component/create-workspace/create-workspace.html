@@ -1,6 +1,7 @@
 <div class="workspace-container">
   <app-sidebar></app-sidebar>
   <div class="workspace-content">
+    <app-top-bar></app-top-bar>
     <div class="form-card">
       <h2>Create New Workspace</h2>
 
@@ -9,7 +10,7 @@
         <div class="form-group">
           <label for="name">Workspace Name</label>
           <input id="name" type="text" formControlName="name" placeholder="Enter workspace name" />
-          <small *ngIf="workspaceForm.get('name')?.invalid && workspaceForm.get('name')?.touched">
+          <small [hidden]="!(workspaceForm.get('name')?.invalid && workspaceForm.get('name')?.touched)">
             Workspace name is required.
           </small>
         </div>

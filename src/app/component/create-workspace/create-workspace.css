@@ -1,12 +1,12 @@
 .workspace-container {
   display: flex;
-  height: 100vh;
+  height: 97vh;
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .workspace-content {
   flex: 1;
-  padding: 2rem;
+  /* padding: 2rem; */
   background: #f7f9fb;
   overflow-y: auto;
 }
