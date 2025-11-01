@@ -1,5 +1,9 @@
 <header class="top-bar">
-  <h2>Document Management System</h2>
+  <button class="hamburger" *ngIf="!sidebarOpen" aria-label="Toggle sidebar" (click)="onToggle()">☰</button>
+
+  <!-- remove from DOM when sidebar is open to avoid duplicate logo/title -->
+  <h2 class="title">Document Managemer</h2>
+
   <div class="right-icons">
     <i class="fa fa-bell"></i>
     <img src="https://i.pravatar.cc/40" alt="User" class="avatar">

@@ -1,7 +1,9 @@
 <div class="workspace-container">
-  <app-sidebar></app-sidebar>
-  <div class="workspace-content">
-    <app-top-bar></app-top-bar>
+  <app-sidebar [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar>
+
+  <div class="workspace-content" [class.sidebar-open]="sidebarOpen">
+    <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
+
     <div class="form-card">
       <h2>Create New Workspace</h2>
 

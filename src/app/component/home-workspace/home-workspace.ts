@@ -19,9 +19,19 @@ export class HomeWorkspaceComponent {
     { name: 'Legal' },
   ];
 
+  sidebarOpen = true;
+
   constructor(private router: Router) {}
 
   onCreateWorkspace() {
     this.router.navigate(['/create-workspace']);
+  }
+
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  closeSidebar() {
+    this.sidebarOpen = false;
   }
 }

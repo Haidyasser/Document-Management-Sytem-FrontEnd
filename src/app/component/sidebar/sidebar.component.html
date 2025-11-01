@@ -1,5 +1,8 @@
-<aside class="sidebar">
-  <h2 class="logo">DMS</h2>
+<aside class="sidebar" [class.closed]="!open">
+  <div class="sidebar-header">
+    <h2 class="logo">DMS</h2>
+    <button class="close-btn" aria-label="Close sidebar" (click)="closeSidebar()">☰</button>
+  </div>
   <ul class="nav-links">
     <li><i class="fa fa-home"></i> Dashboard</li>
     <li class="active"><i class="fa fa-folder"></i> Workspaces</li>

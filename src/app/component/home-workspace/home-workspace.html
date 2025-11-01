@@ -1,9 +1,10 @@
 <div class="workspace-container">
-  <app-sidebar></app-sidebar>
+  <app-sidebar [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar>
 
   <!-- Main Content -->
-  <main class="main-content">
-    <app-top-bar></app-top-bar>
+  <main class="main-content" [class.sidebar-open]="sidebarOpen">
+    <!-- pass sidebar state into top-bar -->
+    <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
 
     <!-- Workspaces -->
     <section class="workspaces">

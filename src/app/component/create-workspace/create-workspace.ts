@@ -1,18 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SidebarComponent } from "../sidebar/sidebar.component";
-import { ReactiveFormsModule } from '@angular/forms';
-import { TopBarComponent } from "../top-bar/top-bar.component";
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { TopBarComponent } from '../top-bar/top-bar.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-create-workspace',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, SidebarComponent, TopBarComponent],
   templateUrl: './create-workspace.html',
-  styleUrls: ['./create-workspace.css'],
-  imports: [SidebarComponent, ReactiveFormsModule, TopBarComponent],
+  styleUrls: ['./create-workspace.css']
 })
 export class CreateWorkspaceComponent implements OnInit {
   workspaceForm!: FormGroup;
+  sidebarOpen = true;
 
   constructor(private fb: FormBuilder, private router: Router) {}
 
@@ -34,5 +38,13 @@ export class CreateWorkspaceComponent implements OnInit {
 
   onCancel() {
     this.router.navigate(['/']);
+  }
+
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  closeSidebar() {
+    this.sidebarOpen = false;
   }
 }
