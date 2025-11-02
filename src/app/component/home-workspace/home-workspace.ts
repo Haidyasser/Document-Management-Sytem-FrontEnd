@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { SidebarComponent } from "../sidebar/sidebar.component";
-import { TopBarComponent } from "../top-bar/top-bar.component";
+import { WorkspaceService } from '../../services/workspace.service';
+import { Workspace } from '../../models/workspace.model';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { TopBarComponent } from '../top-bar/top-bar.component';
 
 @Component({
   selector: 'app-home-workspace',
@@ -11,27 +13,25 @@ import { TopBarComponent } from "../top-bar/top-bar.component";
   templateUrl: './home-workspace.html',
   styleUrls: ['./home-workspace.css']
 })
-export class HomeWorkspaceComponent {
-  folders = [
-    { name: 'Internship Docs' },
-    { name: 'School Papers' },
-    { name: 'Financial' },
-    { name: 'Legal' },
-  ];
-
+export class HomeWorkspaceComponent implements OnInit {
+  workspaces: Workspace[] = [];
+  loading = false;
+  error = '';
   sidebarOpen = true;
 
-  constructor(private router: Router) {}
+  constructor(private ws: WorkspaceService, private router: Router) {}
 
-  onCreateWorkspace() {
-    this.router.navigate(['/create-workspace']);
+  ngOnInit(): void { this.fetchWorkspaces(); }
+
+  fetchWorkspaces(): void {
+    this.loading = true;
+    this.ws.getAll().subscribe({
+      next: data => { this.workspaces = data ?? []; this.loading = false; },
+      error: err => { this.error = 'Failed to load workspaces'; console.error(err); this.loading = false; }
+    });
   }
 
-  toggleSidebar() {
-    this.sidebarOpen = !this.sidebarOpen;
-  }
-
-  closeSidebar() {
-    this.sidebarOpen = false;
-  }
+  onCreateWorkspace(): void { this.router.navigate(['/create-workspace']); }
+  toggleSidebar(): void { this.sidebarOpen = !this.sidebarOpen; }
+  closeSidebar(): void { this.sidebarOpen = false; }
 }

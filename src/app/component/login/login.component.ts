@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
-import { AuthService } from '../../service/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +32,10 @@ export class LoginComponent {
     this.error = null;
     const { email, password } = this.form.value as { email: string; password: string };
     this.auth.login({ email, password }).subscribe({
-      next: () => this.router.navigate(['/']),
+      next: (response) => {
+        this.router.navigate(['/']);
+        localStorage.setItem('token', response.token);
+      },
       error: err => { this.error = err?.message || 'Login failed'; this.loading = false; }
     });
   }

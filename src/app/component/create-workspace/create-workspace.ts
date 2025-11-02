@@ -1,50 +1,45 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { WorkspaceService } from '../../services/workspace.service';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopBarComponent } from '../top-bar/top-bar.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-create-workspace',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, SidebarComponent, TopBarComponent],
+  imports: [CommonModule, ReactiveFormsModule, SidebarComponent, TopBarComponent],
   templateUrl: './create-workspace.html',
   styleUrls: ['./create-workspace.css']
 })
 export class CreateWorkspaceComponent implements OnInit {
   workspaceForm!: FormGroup;
   sidebarOpen = true;
+  submitting = false;
+  error = '';
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder, private ws: WorkspaceService, private router: Router) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.workspaceForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
       type: ['', Validators.required],
-      access: ['Private', Validators.required]
+      access: ['private', Validators.required]
     });
   }
 
-  onSubmit() {
-    if (this.workspaceForm.valid) {
-      console.log('Form Data:', this.workspaceForm.value);
-      // TODO: call your workspace API endpoint here
-    }
+  onSubmit(): void {
+    if (this.workspaceForm.invalid) return;
+    this.submitting = true;
+    this.ws.create(this.workspaceForm.value).subscribe({
+      next: () => { this.submitting = false; this.router.navigate(['/']); },
+      error: err => { this.submitting = false; this.error = 'Failed to create workspace'; console.error(err); }
+    });
   }
 
-  onCancel() {
-    this.router.navigate(['/']);
-  }
-
-  toggleSidebar() {
-    this.sidebarOpen = !this.sidebarOpen;
-  }
-
-  closeSidebar() {
-    this.sidebarOpen = false;
-  }
+  onCancel(): void { this.router.navigate(['/']); }
+  toggleSidebar(): void { this.sidebarOpen = !this.sidebarOpen; }
+  closeSidebar(): void { this.sidebarOpen = false; }
 }

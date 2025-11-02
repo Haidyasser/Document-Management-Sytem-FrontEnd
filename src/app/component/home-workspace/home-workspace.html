@@ -6,7 +6,6 @@
     <!-- pass sidebar state into top-bar -->
     <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
 
-    <!-- Workspaces -->
     <section class="workspaces">
       <div class="workspace-header">
         <h2>Workspaces</h2>
@@ -15,10 +14,11 @@
         </button>
       </div>
 
+      <div *ngIf="error" class="error">{{ error }}</div>
       <div class="workspace-grid">
-        <div class="folder-card" *ngFor="let folder of folders">
+        <div class="folder-card" *ngFor="let ws of workspaces">
           <i class="fa fa-folder folder-icon"></i>
-          <p>{{ folder.name }}</p>
+          <p>{{ ws.name }}</p>
         </div>
       </div>
     </section>
