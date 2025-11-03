@@ -1,8 +1,13 @@
+import { Folder } from './folder.model';
+import { FileEntity } from './file.model';
 export interface Workspace {
   id?: string;
   name: string;
-  description?: string;
+  description: string;
   type: string;
-  access: 'private' | 'public' | string;
+  access: string;
+  folders?: Folder[];
+  files?: FileEntity[];
 }
-export type CreateWorkspaceDto = Omit<Workspace, 'id'>;
+export type { Folder, FileEntity };
+

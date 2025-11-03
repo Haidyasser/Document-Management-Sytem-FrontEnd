@@ -25,9 +25,9 @@ export class HomeWorkspaceComponent implements OnInit {
 
   fetchWorkspaces(): void {
     this.loading = true;
-    this.ws.getAll().subscribe({
-      next: data => { this.workspaces = data ?? []; this.loading = false; },
-      error: err => { this.error = 'Failed to load workspaces'; console.error(err); this.loading = false; }
+    this.ws.getUserWorkspaces().subscribe({
+      next: (data: Workspace[]) => { this.workspaces = data ?? []; this.loading = false; },
+      error: (err: any) => { this.error = 'Failed to load workspaces'; console.error(err); this.loading = false; }
     });
   }
 

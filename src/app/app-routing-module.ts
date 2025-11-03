@@ -4,13 +4,14 @@ import { LoginComponent } from './component/login/login.component';
 import { RegisterComponent } from './component/register/register.component';
 import { HomeWorkspaceComponent } from './component/home-workspace/home-workspace';
 import { CreateWorkspaceComponent } from './component/create-workspace/create-workspace';
+import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: HomeWorkspaceComponent },        // home after login
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'create-workspace', component: CreateWorkspaceComponent },
-  { path: '**', redirectTo: '' }
+  { path: '', component: HomeWorkspaceComponent, canActivate: [authGuard] },
+  { path: 'create-workspace', component: CreateWorkspaceComponent, canActivate: [authGuard] },
+  { path: '**', redirectTo: 'login' }
 ];
 
 @NgModule({
