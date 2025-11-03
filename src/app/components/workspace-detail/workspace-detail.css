@@ -1,0 +1,27 @@
+.workspace-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: margin-left 0.3s ease;
+  margin-left: 0;
+}
+
+.workspace-container.sidebar-open {
+  margin-left: 250px; /* Adjust based on your sidebar width */
+}
+
+.workspace-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.actions button {
+  margin-left: 10px;
+}
+
+.workspace-description {
+  color: #666;
+  font-style: italic;
+}

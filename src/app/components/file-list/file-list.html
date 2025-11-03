@@ -1,0 +1,46 @@
+<div class="file-list">
+  <h3>📄 Files</h3>
+
+  <div class="file-grid">
+    <div
+      class="file-card"
+      *ngFor="let file of files"
+      (click)="previewFile.emit(file)"
+    >
+      <div class="file-icon">
+        <ng-container [ngSwitch]="file.type">
+          <span *ngSwitchCase="'pdf'">📕</span>
+          <span *ngSwitchCase="'image'">🖼️</span>
+          <span *ngSwitchCase="'doc'">📘</span>
+          <span *ngSwitchDefault>📄</span>
+        </ng-container>
+      </div>
+
+      <div class="file-info">
+        <h4>{{ file.name }}</h4>
+        <small>{{ file.type?.toUpperCase() || 'Unknown' }}</small>
+      </div>
+
+      <div class="actions">
+        <button
+          class="action-btn"
+          title="Download"
+          (click)="onDownload(file); $event.stopPropagation()"
+        >
+          ⬇️
+        </button>
+        <button
+          class="action-btn"
+          title="Delete"
+          (click)="onDelete(file.id); $event.stopPropagation()"
+        >
+          🗑️
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <p *ngIf="!files || files.length === 0" class="empty">
+    No files uploaded yet.
+  </p>
+</div>

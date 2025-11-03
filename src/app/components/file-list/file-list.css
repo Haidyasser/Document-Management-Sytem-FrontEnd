@@ -1,0 +1,58 @@
+.file-list {
+  margin-top: 20px;
+}
+
+.file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.file-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  position: relative;
+  transition: 0.2s;
+}
+
+.file-card:hover {
+  background: #f4f8ff;
+  transform: translateY(-2px);
+}
+
+.file-icon {
+  font-size: 30px;
+  margin-bottom: 6px;
+}
+
+.file-info {
+  text-align: center;
+}
+
+.file-info h4 {
+  margin: 0;
+  font-size: 15px;
+  color: #333;
+}
+
+.file-info small {
+  color: #888;
+}
+
+.actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.action-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}

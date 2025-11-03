@@ -10,10 +10,6 @@
   min-height: 100vh;
 }
 
-.main-content.sidebar-open {
-  margin-left: 250px; /* same as sidebar width */
-}
-
 /* Top Bar */
 .top-bar {
   display: flex;

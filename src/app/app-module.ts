@@ -7,12 +7,19 @@ import { AuthInterceptor } from './core/auth.interceptor';
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
-import { LoginComponent } from './component/login/login.component';
-import { RegisterComponent } from './component/register/register.component';
-import { HomeWorkspaceComponent } from './component/home-workspace/home-workspace';
-import { SidebarComponent } from './component/sidebar/sidebar.component';
-import { TopBarComponent } from './component/top-bar/top-bar.component';
-import { CreateWorkspaceComponent } from './component/create-workspace/create-workspace';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { HomeWorkspaceComponent } from './components/home-workspace/home-workspace';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { TopBarComponent } from './components/top-bar/top-bar.component';
+import { CreateWorkspaceComponent } from './components/create-workspace/create-workspace';
+import { WorkspaceDetailsComponent } from './components/workspace-detail/workspace-detail';
+import { FolderListComponent } from './components/folder-list/folder-list';
+import { FileListComponent } from './components/file-list/file-list';
+import { FolderForm } from './components/folder-form/folder-form';
+import { FileForm } from './components/file-form/file-form';
+import { ConfirmDialog } from './components/shared/confirm-dialog/confirm-dialog';
+import { Breadcrumb } from './components/shared/breadcrumb/breadcrumb';
 
 @NgModule({
   declarations: [
@@ -30,7 +37,14 @@ import { CreateWorkspaceComponent } from './component/create-workspace/create-wo
     TopBarComponent,
     CreateWorkspaceComponent,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    WorkspaceDetailsComponent,
+    FolderListComponent,
+    FileListComponent,
+    FolderForm,
+    FileForm,
+    ConfirmDialog,
+    Breadcrumb,
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
