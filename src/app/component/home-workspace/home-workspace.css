@@ -64,33 +64,211 @@
 
 /* Folder Grid */
 .workspace-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
+  justify-content: flex-start; /* use center if you want cards centered */
+  align-items: flex-start;
+  padding: 12px 0;
+  max-width: 1200px; /* optional: limit overall grid width */
+  margin: 0 auto;
 }
 
-.folder-card {
-  background-color: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 30px;
-  text-align: center;
-  transition: 0.2s;
+/* framed folder style */
+.workspace-frame {
+  flex: 0 0 260px; /* fixed card width (change as needed) */
+  max-width: 320px;
+  min-width: 220px;
+  background: #ffffff;
+  border: 1px solid #e6edf6;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.04);
   cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  min-height: 120px;
 }
 
-.folder-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+.workspace-frame:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(16,24,40,0.08);
 }
 
-.folder-icon {
-  font-size: 50px;
-  color: #9ca3af;
-  margin-bottom: 10px;
+.frame-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: linear-gradient(90deg, rgba(10,46,92,0.04), rgba(255,255,255,0));
+  border-bottom: 1px solid #f1f5f9;
 }
 
-.folder-card p {
-  font-weight: 500;
-  color: #111827;
+.frame-icon {
+  font-size: 28px;
+  color: #0a2e5c;
+}
+
+.frame-type {
+  font-size: 12px;
+  color: #555f6b;
+  background: rgba(10,46,92,0.06);
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+.frame-body {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.frame-title {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.frame-desc {
+  margin: 0;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.4;
+  /* limit to 3 lines with ellipsis */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: max-height 180ms ease;
+}
+
+/* expanded state shows full text */
+.frame-desc.expanded {
+  display: block;
+  -webkit-line-clamp: unset;
+  max-height: 1000px;
+}
+
+/* toggle button */
+.desc-toggle {
+  margin-top: 8px;
+  background: transparent;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  padding: 0;
+  font-size: 13px;
+}
+
+/* smaller screens: stack nicely */
+@media (max-width: 480px) {
+  .frame-top { padding: 12px; }
+  .frame-body { padding: 14px; }
+}
+
+/* Workspace grid — fixed card sizes so cards don't stretch to fill row */
+.workspace-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start; /* use center if you want cards centered */
+  align-items: flex-start;
+  padding: 12px 0;
+  max-width: 1200px; /* optional: limit overall grid width */
+  margin: 0 auto;
+}
+
+/* framed folder style (fixed card width + fixed height) */
+.workspace-frame {
+  --card-width: 260px;
+  --card-max-width: 320px;
+  --card-height: 220px; /* <-- change this value to the size you want */
+
+  flex: 0 0 var(--card-width);
+  max-width: var(--card-max-width);
+  min-width: 220px;
+  width: var(--card-width);
+
+  /* fixed height so all cards are identical */
+  height: var(--card-height);
+  background: #ffffff;
+  border: 1px solid #e6edf6;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.04);
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+/* ensure hover still looks good */
+.workspace-frame:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(16,24,40,0.08);
+}
+
+/* keep top area fixed in height */
+.frame-top {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 0 0 auto;
+}
+
+/* body fills remaining space and keeps content aligned */
+.frame-body {
+  padding: 14px 16px;
+  flex: 1 1 auto; /* fill remaining vertical space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertically center title/desc */
+  text-align: left;
+  overflow: hidden;
+}
+
+/* title at top of body */
+.frame-title {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: #0f172a;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* truncated description that fills remaining lines */
+.frame-desc {
+  margin: 0;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.4;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* number of visible lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* responsive: make cards full width on small screens but keep equal heights */
+@media (max-width: 640px) {
+  .workspace-frame {
+    flex: 1 1 100%;
+    max-width: 100%;
+    height: auto; /* allow natural height on very small screens if desirable */
+  }
+
+  .frame-body {
+    justify-content: flex-start;
+  }
 }

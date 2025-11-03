@@ -19,6 +19,9 @@ export class HomeWorkspaceComponent implements OnInit {
   error = '';
   sidebarOpen = true;
 
+  // track expanded state per item (use index if ws.id not present)
+  expanded: Record<number, boolean> = {};
+
   constructor(private ws: WorkspaceService, private router: Router) {}
 
   ngOnInit(): void { this.fetchWorkspaces(); }
@@ -26,12 +29,28 @@ export class HomeWorkspaceComponent implements OnInit {
   fetchWorkspaces(): void {
     this.loading = true;
     this.ws.getUserWorkspaces().subscribe({
-      next: (data: Workspace[]) => { this.workspaces = data ?? []; this.loading = false; },
-      error: (err: any) => { this.error = 'Failed to load workspaces'; console.error(err); this.loading = false; }
+      next: (data: Workspace[]) => {
+        this.workspaces = data ?? [];
+        this.loading = false;
+      },
+      error: (err: any) => {
+        this.error = 'Failed to load workspaces';
+        console.error(err);
+        this.loading = false;
+      }
     });
+  }
+
+  toggleExpand(i: number): void {
+    this.expanded[i] = !this.expanded[i];
   }
 
   onCreateWorkspace(): void { this.router.navigate(['/create-workspace']); }
   toggleSidebar(): void { this.sidebarOpen = !this.sidebarOpen; }
   closeSidebar(): void { this.sidebarOpen = false; }
+
+  openWorkspace(ws: Workspace): void {
+    if (ws.id) this.router.navigate(['/workspaces', ws.id]);
+    else this.router.navigate(['/']);
+  }
 }

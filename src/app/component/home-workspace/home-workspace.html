@@ -15,11 +15,26 @@
       </div>
 
       <div *ngIf="error" class="error">{{ error }}</div>
+
       <div class="workspace-grid">
-        <div class="folder-card" *ngFor="let ws of workspaces">
-          <i class="fa fa-folder folder-icon"></i>
-          <p>{{ ws.name }}</p>
-        </div>
+        <article class="workspace-frame" *ngFor="let ws of workspaces; let i = index" (click)="openWorkspace(ws)">
+          <div class="frame-top">
+            <i class="fa fa-folder frame-icon" aria-hidden="true"></i>
+            <span class="frame-type">{{ ws.type || 'Workspace' }}</span>
+          </div>
+
+          <div class="frame-body" (click)="$event.stopPropagation()">
+            <h3 class="frame-title">{{ ws.name }}</h3>
+
+            <!-- description: truncated by default, expands when toggled -->
+            <p class="frame-desc" [class.expanded]="expanded[i]">{{ ws.description || 'No description' }}</p>
+
+            <!-- toggle button only when there's a description longer than 1 line -->
+            <button *ngIf="ws.description" type="button" class="desc-toggle" (click)="toggleExpand(i)">
+              {{ expanded[i] ? 'Show less' : 'Show more' }}
+            </button>
+          </div>
+        </article>
       </div>
     </section>
   </main>
