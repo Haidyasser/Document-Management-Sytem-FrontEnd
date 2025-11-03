@@ -1,16 +1,43 @@
 .top-bar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 3px 30px;
-  background-color: white;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 17px; /* increase vertical padding for better centering */
+
+  /* ensure border is visible and bar stays above content */
+  background: #fff;
   border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 90;
 }
 
+/* left group: hamburger + title */
+.top-bar .left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 auto;
+}
+
+/* keep title left-aligned rather than centered */
+.title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* keep right icons fixed at the right */
 .right-icons {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
+  flex: 0 0 auto;
 }
 
 .avatar {

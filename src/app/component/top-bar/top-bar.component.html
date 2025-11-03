@@ -1,8 +1,8 @@
 <header class="top-bar">
-  <button class="hamburger" *ngIf="!sidebarOpen" aria-label="Toggle sidebar" (click)="onToggle()">☰</button>
-
-  <!-- remove from DOM when sidebar is open to avoid duplicate logo/title -->
-  <h2 class="title">Document Managemer</h2>
+  <div class="left">
+    <button class="hamburger" *ngIf="!sidebarOpen" aria-label="Toggle sidebar" (click)="onToggle()">☰</button>
+    <h2 class="title">Document Management</h2>
+  </div>
 
   <div class="right-icons">
     <i class="fa fa-bell"></i>
