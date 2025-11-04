@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WorkspaceService } from '../../services/workspace.service';
-import { Workspace, Folder, FileEntity } from '../../models/workspace.model';
+import { Workspace } from '../../models/workspace.model';
 import { TopBarComponent } from "../top-bar/top-bar.component";
 import { SidebarComponent } from "../sidebar/sidebar.component";
 import { FolderListComponent } from "../folder-list/folder-list";
@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 import { FolderDialogComponent } from '../folder-dialog/folder-dialog';
 import { FileDialogComponent } from '../file-dialog/file-dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { FileEntity } from '../../models/file.model';
+import { Folder } from '../../models/folder.model';
 
 @Component({
   selector: 'app-workspace-detail',
@@ -95,7 +97,7 @@ export class WorkspaceDetailComponent implements OnInit {
 
   loadWorkspace(): void {
     this.loading = true;
-    this.workspaceService.getWorkspaceById(this.workspaceId).subscribe({
+    this.workspaceService.getById(this.workspaceId).subscribe({
       next: (data) => {
         this.workspace = data;
         this.loading = false;
@@ -129,7 +131,7 @@ export class WorkspaceDetailComponent implements OnInit {
 
   onDeleteFolder(folderId: string): void {
     if (confirm('Are you sure you want to delete this folder?')) {
-      this.workspaceService['deleteFolder'](this.workspaceId, folderId).subscribe({
+      this.workspaceService.deleteFolder(this.workspaceId, folderId).subscribe({
         next: () => this.loadWorkspace(),
         error: (err: any) => {
           console.error('Failed to delete folder', err);
@@ -141,7 +143,7 @@ export class WorkspaceDetailComponent implements OnInit {
 
   onDeleteFile(fileId: string): void {
     if (confirm('Are you sure you want to delete this file?')) {
-      this.workspaceService['deleteFile'](this.workspaceId, fileId).subscribe({
+      this.workspaceService.deleteFile(this.workspaceId, fileId).subscribe({
         next: () => this.loadWorkspace(),
         error: (err: any) => {
           console.error('Failed to delete file', err);

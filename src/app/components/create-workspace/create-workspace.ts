@@ -32,7 +32,7 @@ export class CreateWorkspaceComponent implements OnInit {
   onSubmit(): void {
     if (this.workspaceForm.invalid) return;
     this.submitting = true;
-    this.ws.createWorkspace(this.workspaceForm.value).subscribe({
+    this.ws.create(this.workspaceForm.value).subscribe({
       next: () => { this.submitting = false; this.router.navigate(['/']); },
       error: (err: any) => { this.submitting = false; this.error = 'Failed to create workspace'; console.error(err); }
     });

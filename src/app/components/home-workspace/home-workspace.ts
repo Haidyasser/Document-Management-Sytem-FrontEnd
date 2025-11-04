@@ -28,7 +28,7 @@ export class HomeWorkspaceComponent implements OnInit {
 
   fetchWorkspaces(): void {
     this.loading = true;
-    this.ws.getUserWorkspaces().subscribe({
+    this.ws.getAll().subscribe({
       next: (data: Workspace[]) => {
         this.workspaces = data ?? [];
         this.loading = false;
