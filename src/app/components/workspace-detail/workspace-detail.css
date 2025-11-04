@@ -7,7 +7,7 @@
   margin-left: 0;
 }
 
-.workspace-container.sidebar-open {
+.sidebar-open {
   margin-left: 250px; /* Adjust based on your sidebar width */
 }
 

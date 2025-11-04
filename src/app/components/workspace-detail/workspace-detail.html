@@ -1,43 +1,33 @@
-<div class="workspace-container" [class.sidebar-open]="sidebarOpen">
-      <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
-      <app-sidebar [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar>
+<div [class.sidebar-open]="sidebarOpen">
+  <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
+  <app-sidebar [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar>
 
-  <!-- 🟦 Header -->
-  <div class="workspace-header">
-    <h2>{{ workspace?.name }}</h2>
-    <div class="actions">
-      <button class="btn btn-primary" (click)="openFolderForm()">+ New Folder</button>
-      <button class="btn btn-secondary" (click)="openFileForm()">+ Upload File</button>
+  <div class="workspace-container">
+    <div class="workspace-header">
+      <h2>{{ workspace?.name }}</h2>
+      <div class="actions">
+        <button class="btn btn-primary" (click)="openFolderForm()">+ New Folder</button>
+        <button class="btn btn-secondary" (click)="openFileForm()">+ Upload File</button>
+      </div>
+    </div>
+
+    <p class="workspace-description">{{ workspace?.description }}</p>
+
+    <div *ngIf="loading" class="loading">Loading...</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+    <div *ngIf="workspace && !loading">
+      <app-folder-list
+        [folders]="workspace.folders || []"
+        (openFolder)="onOpenFolder($event)"
+        (deleteFolder)="onDeleteFolder($event)"
+      ></app-folder-list> 
+
+      <app-file-list
+        [files]="workspace.files || []"
+        (deleteFile)="onDeleteFile($event)"
+        (previewFile)="onPreviewFile($event)"
+      ></app-file-list>
     </div>
   </div>
-
-  <p class="workspace-description">{{ workspace?.description }}</p>
-
-  <!-- 🟨 Folder List -->
-  <app-folder-list
-    [folders]="workspace?.folders || []"
-    (openFolder)="onOpenFolder($event)"
-    (deleteFolder)="onDeleteFolder($event)"
-  ></app-folder-list>
-
-  <!-- 🟩 File List -->
-  <app-file-list
-    [files]="workspace?.files || []"
-    (deleteFile)="onDeleteFile($event)"
-    (previewFile)="onPreviewFile($event)"
-  ></app-file-list>
-
-  <!-- 🟧 Folder Form Dialog -->
-  <app-folder-form
-    *ngIf="showFolderForm"
-    (folderCreated)="onFolderCreated($event)"
-    (close)="showFolderForm = false"
-  ></app-folder-form>
-
-  <!-- 🟥 File Form Dialog -->
-  <app-file-form
-    *ngIf="showFileForm"
-    (fileUploaded)="onFileUploaded($event)"
-    (close)="showFileForm = false"
-  ></app-file-form>
 </div>

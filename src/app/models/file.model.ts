@@ -1,5 +1,5 @@
 export interface FileEntity {
-  id: string;
+  id?: string;
   name: string;
   type: string;
   size?: number;

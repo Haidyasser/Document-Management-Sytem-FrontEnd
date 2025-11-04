@@ -2,29 +2,20 @@
   <h3>📁 Folders</h3>
 
   <div class="folder-grid">
-    <div
-      class="folder-card"
-      *ngFor="let folder of folders"
-      (click)="openFolder.emit(folder)"
-    >
-      <div class="folder-icon">📁</div>
-      <div class="folder-info">
-        <h4>{{ folder.name }}</h4>
+    <div class="folder-card" *ngFor="let folder of folders" (click)="onOpen(folder)">
+      <div class="folder-icon">
+        📂
       </div>
-
-      <div class="actions">
-        <button
-          class="action-btn"
-          (click)="onDelete(folder.id); $event.stopPropagation()"
-          title="Delete Folder"
-        >
-          🗑️
+      <div class="folder-info">
+        <span>{{ folder.name }}</span>
+      </div>
+      <div class="folder-actions">
+        <button class="delete" (click)="onDelete(folder.id!); $event.stopPropagation();">
+          <i class="fa fa-trash"></i>
         </button>
       </div>
     </div>
   </div>
 
-  <p *ngIf="!folders || folders.length === 0" class="empty">
-    No folders created yet.
-  </p>
+  <div *ngIf="folders.length === 0" class="empty">No folders yet</div>
 </div>

@@ -32,7 +32,7 @@
         <button
           class="action-btn"
           title="Delete"
-          (click)="onDelete(file.id); $event.stopPropagation()"
+          (click)="onDelete(file.id ? file.id : ''); $event.stopPropagation()"
         >
           🗑️
         </button>

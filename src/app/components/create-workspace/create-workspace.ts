@@ -8,7 +8,6 @@ import { TopBarComponent } from '../top-bar/top-bar.component';
 
 @Component({
   selector: 'app-create-workspace',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, SidebarComponent, TopBarComponent],
   templateUrl: './create-workspace.html',
   styleUrls: ['./create-workspace.css']
