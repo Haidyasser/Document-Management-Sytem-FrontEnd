@@ -1,0 +1,39 @@
+.workspace-container {
+  padding: 1.5rem 2rem;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+
+.workspace-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.workspace-header .left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 6px;
+}
+
+.actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+/* shift when sidebar open (wrapper class applied on parent) */
+.sidebar-open .workspace-container {
+  margin-left: 250px; /* adjust to your sidebar width */
+}

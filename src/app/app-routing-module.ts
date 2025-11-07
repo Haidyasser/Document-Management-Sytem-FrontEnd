@@ -6,6 +6,7 @@ import { HomeWorkspaceComponent } from './components/home-workspace/home-workspa
 import { CreateWorkspaceComponent } from './components/create-workspace/create-workspace';
 import { authGuard } from './guards/auth.guard';
 import { WorkspaceDetailComponent } from './components/workspace-detail/workspace-detail';
+import { FolderDetailComponent } from './components/folder-detail/folder-detail';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: '', component: HomeWorkspaceComponent, canActivate: [authGuard] },
   { path: 'create-workspace', component: CreateWorkspaceComponent, canActivate: [authGuard] },
   { path: 'workspaces/:id', component: WorkspaceDetailComponent, canActivate: [authGuard] },
+  { path: 'folders/:workspaceId/:id', component: FolderDetailComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: 'login' }
 ];
 

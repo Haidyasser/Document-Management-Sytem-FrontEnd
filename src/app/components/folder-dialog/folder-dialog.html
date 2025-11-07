@@ -1,18 +1,31 @@
-<h2 mat-dialog-title>{{ data.mode === 'create' ? 'Create Folder' : 'Edit Folder' }}</h2>
+<h2 mat-dialog-title class="dialog-title">
+  {{ data.mode === 'create' ? 'New Folder' : 'Edit Folder' }}
+</h2>
 
-<mat-dialog-content class="flex flex-col gap-4">
-  <mat-form-field appearance="outline" class="w-full">
-    <mat-label>Folder Name</mat-label>
-    <input matInput [(ngModel)]="folderName" />
-  </mat-form-field>
+<mat-dialog-content class="dialog-content">
+  <div class="dialog-row">
+    <div class="form-field name">
+      <mat-form-field appearance="outline" class="input-field">
+        <mat-label>Folder Name</mat-label>
+        <input matInput [(ngModel)]="folderName" name="folderName" />
+      </mat-form-field>
+    </div>
 
-  <mat-form-field appearance="outline" class="w-full">
-    <mat-label>Description</mat-label>
-    <textarea matInput rows="3" [(ngModel)]="description"></textarea>
-  </mat-form-field>
+    <div class="form-field desc">
+      <mat-form-field appearance="outline" class="input-field">
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="description"
+          name="description"
+          rows="3"
+        ></textarea>
+      </mat-form-field>
+    </div>
+  </div>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
+<mat-dialog-actions align="end" class="dialog-actions">
   <button mat-stroked-button (click)="onCancel()">Cancel</button>
   <button mat-flat-button color="primary" (click)="onSave()">Save</button>
 </mat-dialog-actions>

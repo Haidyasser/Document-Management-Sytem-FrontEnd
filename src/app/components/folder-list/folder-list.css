@@ -45,7 +45,7 @@
   color: #777;
 }
 
-.actions {
+.folder-actions {
   position: absolute;
   top: 8px;
   right: 8px;
@@ -56,3 +56,4 @@
   border: none;
   cursor: pointer;
 }
+

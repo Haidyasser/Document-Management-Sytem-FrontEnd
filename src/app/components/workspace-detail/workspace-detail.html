@@ -1,21 +1,13 @@
 <div [class.sidebar-open]="sidebarOpen">
-  <app-sidebar [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar>
   <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
+  <app-sidebar [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar>
 
   <div class="workspace-container">
     <div class="workspace-header">
-      <h2 class="workspace-title">{{ workspace?.name }}</h2>
-
+      <h2>{{ workspace?.name }}</h2>
       <div class="actions">
-        <button class="btn btn-primary create-folder" (click)="openFolderForm()">
-          <span class="icon">📁</span>
-          <span class="label">New Folder</span>
-        </button>
-
-        <button class="btn btn-secondary upload-file" (click)="openFileForm()">
-          <span class="icon">⬆️</span>
-          <span class="label">Upload File</span>
-        </button>
+        <button class="btn btn-primary" (click)="openFolderForm()">+ New Folder</button>
+        <button class="btn btn-secondary" (click)="openFileForm()">+ Upload File</button>
       </div>
     </div>
 

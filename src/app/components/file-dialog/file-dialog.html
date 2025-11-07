@@ -8,10 +8,6 @@
 
     <input type="file" (change)="onFileSelected($event)" />
 
-    <div class="mt-2">
-      <strong>Filename to be used:</strong>
-      {{ fileForm.get('name')?.value || selectedFile?.name || 'No file selected' }}
-    </div>
   </form>
 </mat-dialog-content>
 

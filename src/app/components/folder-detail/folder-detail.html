@@ -1,0 +1,33 @@
+<div [class.sidebar-open]="sidebarOpen">
+  <app-sidebar [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar>
+  <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
+
+  <div class="workspace-container">
+    <div class="workspace-header">
+      <div class="left">
+        <button class="back-btn" (click)="backToWorkspace()">← Back</button>
+        <h2 class="workspace-title">{{ folder?.name || 'Folder' }}</h2>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-secondary" (click)="openFileForm()">
+          <span class="icon">⬆️</span>
+          <span class="label">Upload File</span>
+        </button>
+      </div>
+    </div>
+
+    <p class="workspace-description">{{ folder?.description }}</p>
+
+    <div *ngIf="loading" class="loading">Loading...</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+    <div *ngIf="!loading && folder">
+      <app-file-list
+        [files]="files"
+        (previewFile)="onPreviewFile($event)"
+        (deleteFile)="onDeleteFile($event)"
+      ></app-file-list>
+    </div>
+  </div>
+</div>
