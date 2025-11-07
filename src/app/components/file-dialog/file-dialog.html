@@ -1,18 +1,21 @@
-<h2 mat-dialog-title>{{ data.mode === 'create' ? 'Upload File' : 'Edit File' }}</h2>
+<h2 mat-dialog-title>Upload File</h2>
+<mat-dialog-content>
+  <form [formGroup]="fileForm">
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>File Name</mat-label>
+      <input matInput formControlName="name" [placeholder]="selectedFile?.name || 'Enter file name'" />
+    </mat-form-field>
 
-<mat-dialog-content class="flex flex-col gap-4">
-  <mat-form-field appearance="outline" class="w-full">
-    <mat-label>File Name</mat-label>
-    <input matInput [(ngModel)]="fileName" />
-  </mat-form-field>
+    <input type="file" (change)="onFileSelected($event)" />
 
-  <mat-form-field appearance="outline" class="w-full">
-    <mat-label>File Type</mat-label>
-    <input matInput [(ngModel)]="fileType" />
-  </mat-form-field>
+    <div class="mt-2">
+      <strong>Filename to be used:</strong>
+      {{ fileForm.get('name')?.value || selectedFile?.name || 'No file selected' }}
+    </div>
+  </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-stroked-button (click)="onCancel()">Cancel</button>
-  <button mat-flat-button color="primary" (click)="onSave()">Save</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" (click)="uploadFile()">Upload</button>
 </mat-dialog-actions>

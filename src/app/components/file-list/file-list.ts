@@ -19,6 +19,6 @@ export class FileListComponent {
   }
 
   onDownload(file: FileEntity): void {
-    this.downloadFile.emit(file);
-  }
+  this.downloadFile.emit(file);
+}
 }

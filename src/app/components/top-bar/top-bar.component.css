@@ -1,47 +1,124 @@
 .top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 12px 17px; /* increase vertical padding for better centering */
-
-  /* ensure border is visible and bar stays above content */
-  background: #fff;
+  padding: 0.8rem 1.5rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   border-bottom: 1px solid #e5e7eb;
-  position: sticky;
-  top: 0;
-  z-index: 90;
 }
 
-/* left group: hamburger + title */
-.top-bar .left {
+/* ===== Left Section ===== */
+.left {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex: 1 1 auto;
+  gap: 1rem;
 }
 
-/* keep title left-aligned rather than centered */
+.hamburger {
+  font-size: 1.4rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #1e293b;
+  transition: transform 0.2s ease;
+}
+
+.hamburger:hover {
+  transform: scale(1.1);
+}
+
+/* ===== Title ===== */
 .title {
-  margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: #1e3a8a;
+  letter-spacing: 0.5px;
 }
 
-/* keep right icons fixed at the right */
+/* ===== Right Section ===== */
 .right-icons {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex: 0 0 auto;
+  gap: 1.2rem;
+  position: relative;
 }
 
-.avatar {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
+/* ===== Notification ===== */
+.notification {
+  position: relative;
+  cursor: pointer;
 }
+
+.notification i {
+  font-size: 1.3rem;
+  color: #475569;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.notification i:hover {
+  color: #2563eb;
+  transform: scale(1.15);
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -8px;
+  background-color: #ef4444;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+/* ===== Avatar ===== */
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #2563eb;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.1rem;
+  }
+
+  .right-icons {
+    gap: 0.8rem;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-info .name {
+  font-weight: 500;
+  color: #333;
+}
+

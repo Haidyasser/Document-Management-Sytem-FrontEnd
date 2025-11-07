@@ -44,6 +44,7 @@ import { L } from '@angular/cdk/keycodes';
     Breadcrumb,
     FolderDialogComponent,
     FileDialogComponent,
+    ReactiveFormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

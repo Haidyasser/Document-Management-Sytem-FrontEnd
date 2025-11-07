@@ -108,5 +108,29 @@ export class WorkspaceService {
       headers: this.getAuthHeaders(),
     });
   }
+
+  uploadFile(workspaceId: string, file: File): Observable<Workspace> {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const token = localStorage.getItem('token');
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${token}`
+  });
+
+  return this.http.post<Workspace>(
+    `${this.baseUrl}/${workspaceId}/files`,
+    formData,
+    { headers }
+  );
+}
+
+downloadFile(workspaceId: string, fileId: string): Observable<Blob> {
+  return this.http.get(`${this.baseUrl}/${workspaceId}/files/${fileId}/download`, {
+    responseType: 'blob'
+  });
+}
+
+
 }
 

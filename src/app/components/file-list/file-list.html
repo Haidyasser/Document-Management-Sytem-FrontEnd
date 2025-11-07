@@ -19,6 +19,7 @@
       <div class="file-info">
         <h4>{{ file.name }}</h4>
         <small>{{ file.type?.toUpperCase() || 'Unknown' }}</small>
+        <a [href]="'http://localhost:8080' + file.path" target="_blank">Preview</a>
       </div>
 
       <div class="actions">

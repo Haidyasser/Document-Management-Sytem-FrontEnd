@@ -1,27 +1,119 @@
 .workspace-container {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  padding: 1.5rem 2rem;
+  background-color: #f8f9fc;
+  min-height: 100vh;
   transition: margin-left 0.3s ease;
-  margin-left: 0;
 }
 
-.sidebar-open {
-  margin-left: 250px; /* Adjust based on your sidebar width */
-}
-
+/* ===== Header Section ===== */
 .workspace-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-.actions button {
-  margin-left: 10px;
+.workspace-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #1e293b;
 }
 
+/* ===== Description ===== */
 .workspace-description {
-  color: #666;
-  font-style: italic;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* ===== Actions Area ===== */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/* ===== Button Base ===== */
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.1rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== Primary (Folder Button) ===== */
+.btn-primary {
+  background-color: #2563eb;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+}
+
+/* ===== Secondary (Upload File Button) ===== */
+.btn-secondary {
+  background-color: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 2px 6px rgba(148, 163, 184, 0.1);
+}
+
+.btn-secondary:hover {
+  background-color: #e2e8f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(148, 163, 184, 0.2);
+}
+
+/* ===== Icon + Label ===== */
+.icon {
+  font-size: 1.1rem;
+  display: flex;
+}
+
+.label {
+  font-weight: 500;
+}
+
+/* ===== Loading & Error ===== */
+.loading {
+  font-size: 1rem;
+  color: #64748b;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.error {
+  color: #dc2626;
+  text-align: center;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .workspace-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
 }

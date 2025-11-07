@@ -63,12 +63,12 @@ export class WorkspaceDetailComponent implements OnInit {
   openFileForm(): void {
     const dialogRef = this.dialog.open(FileDialogComponent, {
       width: '500px',
-      data: { mode: 'create' }
+      data: { workspaceId: this.workspaceId } // pass workspace id into dialog
     });
 
-    dialogRef.afterClosed().subscribe((result: FileEntity) => {
-      if (result) {
-        this.onAddFile(result);
+    dialogRef.afterClosed().subscribe((uploaded: boolean) => {
+      if (uploaded) {
+        this.loadWorkspace(); // refresh list after upload success
       }
     });
   }
@@ -152,4 +152,21 @@ export class WorkspaceDetailComponent implements OnInit {
       });
     }
   }
+
+  onDownloadFile(file: FileEntity): void {
+  this.workspaceService.downloadFile(this.workspaceId, file.id!).subscribe({
+    next: (blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = file.name;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    },
+    error: (err) => {
+      console.error('Download failed:', err);
+    }
+  });
+}
+
 }

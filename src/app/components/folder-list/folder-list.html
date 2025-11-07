@@ -10,8 +10,8 @@
         <span>{{ folder.name }}</span>
       </div>
       <div class="folder-actions">
-        <button class="delete" (click)="onDelete(folder.id!); $event.stopPropagation();">
-          <i class="fa fa-trash"></i>
+        <button class="action-btn" name="delete" (click)="onDelete(folder.id!); $event.stopPropagation();">
+          🗑️
         </button>
       </div>
     </div>

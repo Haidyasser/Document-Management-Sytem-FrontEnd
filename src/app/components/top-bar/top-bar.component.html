@@ -1,11 +1,14 @@
 <header class="top-bar">
   <div class="left">
-    <button class="hamburger" *ngIf="!sidebarOpen" aria-label="Toggle sidebar" (click)="onToggle()">☰</button>
+    <button class="hamburger" *ngIf="!sidebarOpen" (click)="onToggle()">☰</button>
     <h2 class="title">Document Management</h2>
   </div>
 
   <div class="right-icons">
     <i class="fa fa-bell"></i>
-    <img src="https://i.pravatar.cc/40" alt="User" class="avatar">
+    <div class="user-info">
+      <span class="name">{{ userName }}</span>
+      <img src="https://i.pravatar.cc/40" alt="User" class="avatar">
+    </div>
   </div>
 </header>
