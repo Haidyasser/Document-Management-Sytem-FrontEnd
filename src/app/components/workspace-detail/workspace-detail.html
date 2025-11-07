@@ -1,6 +1,6 @@
 <div [class.sidebar-open]="sidebarOpen">
-  <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
   <app-sidebar [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar>
+  <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
 
   <div class="workspace-container">
     <div class="workspace-header">

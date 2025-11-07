@@ -117,3 +117,42 @@
     flex-wrap: wrap;
   }
 }
+
+
+/* Sidebar transition */
+app-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+
+/* Top bar layout fix */
+app-top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 60px;
+  width: calc(100% - 0px);
+  background-color: white;
+  z-index: 1000;
+  transition: left 0.3s ease, width 0.3s ease;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Shift top bar when sidebar is open */
+.sidebar-open app-top-bar {
+  left: 250px;
+  width: calc(100% - 250px);
+}
+
+/* Push workspace content below top bar */
+.workspace-container {
+  margin-top: 70px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Move workspace when sidebar is open */
+.sidebar-open .workspace-container {
+  margin-left: 250px;
+}
