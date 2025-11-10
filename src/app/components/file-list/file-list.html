@@ -30,44 +30,45 @@
               <span class="file-name">{{ folder.name }}</span>
             </div>
           </td>
+          <td class="type-col">Folder</td>
           <td class="shared-col">
             <span class="no-shared">—</span>
           </td>
           <td class="size-col">{{ getFolderFileCount(folder) }} {{ getFolderFileCount(folder) === 1 ? 'file' : 'files' }}</td>
           <td class="actions-col">
             <div class="action-buttons">
-              <button 
-                class="action-icon" 
+              <button
+                class="action-icon"
                 title="Share"
                 (click)="onShareFolder(folder); $event.stopPropagation()"
               >
                 <i class="fas fa-share-alt"></i>
               </button>
-              <button 
-                class="action-icon" 
+              <button
+                class="action-icon"
                 title="Add to folder"
                 (click)="onAddFolderToFolder(folder); $event.stopPropagation()"
               >
                 <i class="fas fa-folder-plus"></i>
               </button>
-              <button 
-                class="action-icon" 
+              <button
+                class="action-icon"
                 title="Delete folder"
                 (click)="deleteFolder.emit(folder.id!); $event.stopPropagation()"
               >
                 <i class="fas fa-trash"></i>
               </button>
-              <button 
-                class="action-icon more-options" 
+              <button
+                class="action-icon more-options"
                 title="More options"
                 (click)="toggleFolderContextMenu(folder, $event)"
               >
                 <i class="fas fa-ellipsis-vertical"></i>
               </button>
             </div>
-            
+
             <!-- Context Menu for Folders -->
-            <div 
+            <div
               class="context-menu"
               *ngIf="contextMenuFolder === folder && showContextMenu"
               (click)="$event.stopPropagation()"
