@@ -1,16 +1,14 @@
-<div class="workspace-container">
+<div class="main-layout" [class.sidebar-open]="sidebarOpen">
   <app-sidebar [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar>
+  <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
 
   <!-- Main Content -->
-  <main class="main-content" [class.sidebar-open]="sidebarOpen">
-    <!-- pass sidebar state into top-bar -->
-    <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
-
+  <main class="main-content">
     <section class="workspaces">
       <div class="workspace-header">
         <h2>Workspaces</h2>
         <button class="create-btn" (click)="onCreateWorkspace()">
-          <i class="fa fa-plus"></i> Create Workspace
+          <i class="fas fa-plus"></i> Create Workspace
         </button>
       </div>
 
@@ -19,7 +17,7 @@
       <div class="workspace-grid">
         <article class="workspace-frame" *ngFor="let ws of workspaces; let i = index" (click)="openWorkspace(ws)">
           <div class="frame-top">
-            <i class="fa fa-folder frame-icon" aria-hidden="true"></i>
+            <i class="fas fa-folder frame-icon" aria-hidden="true"></i>
             <span class="frame-type">{{ ws.type || 'Workspace' }}</span>
           </div>
 

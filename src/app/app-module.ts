@@ -20,6 +20,7 @@ import { Breadcrumb } from './components/shared/breadcrumb/breadcrumb';
 import { FolderDialogComponent } from './components/folder-dialog/folder-dialog';
 import { FileDialogComponent } from './components/file-dialog/file-dialog';
 import { L } from '@angular/cdk/keycodes';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { L } from '@angular/cdk/keycodes';
     Breadcrumb,
     FolderDialogComponent,
     FileDialogComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

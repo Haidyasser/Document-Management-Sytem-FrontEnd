@@ -21,4 +21,6 @@ export class FolderListComponent {
   onDelete(folderId: string): void {
     this.deleteFolder.emit(folderId);
   }
+
+  
 }

@@ -1,0 +1,28 @@
+<div class="main-layout" [class.sidebar-open]="sidebarOpen">
+  <app-sidebar [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar>
+  <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
+
+  <main class="main-content">
+    <div *ngIf="loading" class="loading">Loading recent files...</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+    <div *ngIf="!loading && !errorMessage">
+      <app-file-list
+        [files]="files"
+        [title]="listTitle"
+        [isDeletedView]="isDeletedView"
+        (downloadFile)="onDownloadFile($event)"
+        (deleteFile)="onDeleteFile($event)"
+        (permanentDeleteFile)="onPermanentDeleteFile($event)"
+        (previewFile)="onPreviewFile($event)"
+        (shareFile)="onShareFile($event)"
+        (addToFolder)="onAddToFolder($event)"
+        (favoriteFile)="onFavoriteFile($event)"
+        (renameFile)="onRenameFile($event)"
+        (moveToFile)="onMoveToFile($event)"
+        (viewDetailsFile)="onViewDetailsFile($event)"
+      ></app-file-list>
+    </div>
+  </main>
+</div>
+

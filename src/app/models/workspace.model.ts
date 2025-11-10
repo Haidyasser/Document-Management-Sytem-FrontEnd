@@ -5,6 +5,7 @@ export interface Workspace {
   id?: string;
   name: string;
   description?: string;
+  parentId?: string;
   type?: string;
   access?: string;
   folders?: Folder[];

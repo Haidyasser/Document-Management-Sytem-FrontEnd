@@ -1,46 +1,250 @@
-<div class="file-list">
-  <h3>📄 Files</h3>
-
-  <div class="file-grid">
-    <div
-      class="file-card"
-      *ngFor="let file of files"
-      (click)="previewFile.emit(file)"
-    >
-      <div class="file-icon">
-        <ng-container [ngSwitch]="file.type">
-          <span *ngSwitchCase="'pdf'">📕</span>
-          <span *ngSwitchCase="'image'">🖼️</span>
-          <span *ngSwitchCase="'doc'">📘</span>
-          <span *ngSwitchDefault>📄</span>
-        </ng-container>
-      </div>
-
-      <div class="file-info">
-        <h4>{{ file.name }}</h4>
-        <small>{{ file.type?.toUpperCase() || 'Unknown' }}</small>
-      </div>
-
-      <div class="actions">
-        <button
-          class="action-btn"
-          title="Download"
-          (click)="onDownload(file); $event.stopPropagation()"
-        >
-          ⬇️
-        </button>
-        <button
-          class="action-btn"
-          title="Delete"
-          (click)="onDelete(file.id ? file.id : ''); $event.stopPropagation()"
-        >
-          🗑️
-        </button>
-      </div>
-    </div>
+<div class="file-list-container">
+  <h2 class="section-title">{{ title }}</h2>
+  
+  <div class="table-wrapper" *ngIf="(folders && folders.length > 0) || (files && files.length > 0)">
+    <table class="files-table">
+      <thead>
+        <tr>
+          <th class="checkbox-col">
+            <input type="checkbox" class="table-checkbox" />
+          </th>
+          <th class="name-col">
+            <span>Name</span>
+            <i class="fas fa-sort-down sort-icon"></i>
+          </th>
+          <th class="type-col">Type</th>
+          <th class="shared-col">Shared With</th>
+          <th class="size-col">Size</th>
+          <th class="actions-col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Folders -->
+        <tr *ngFor="let folder of folders" class="file-row folder-row" (click)="onFolderClick(folder)">
+          <td class="checkbox-col">
+            <input type="checkbox" class="table-checkbox" (click)="$event.stopPropagation()" />
+          </td>
+          <td class="name-col">
+            <div class="file-name-cell">
+              <i class="fas fa-folder folder-icon"></i>
+              <span class="file-name">{{ folder.name }}</span>
+            </div>
+          </td>
+          <td class="shared-col">
+            <span class="no-shared">—</span>
+          </td>
+          <td class="size-col">{{ getFolderFileCount(folder) }} {{ getFolderFileCount(folder) === 1 ? 'file' : 'files' }}</td>
+          <td class="actions-col">
+            <div class="action-buttons">
+              <button 
+                class="action-icon" 
+                title="Share"
+                (click)="onShareFolder(folder); $event.stopPropagation()"
+              >
+                <i class="fas fa-share-alt"></i>
+              </button>
+              <button 
+                class="action-icon" 
+                title="Add to folder"
+                (click)="onAddFolderToFolder(folder); $event.stopPropagation()"
+              >
+                <i class="fas fa-folder-plus"></i>
+              </button>
+              <button 
+                class="action-icon" 
+                title="Delete folder"
+                (click)="deleteFolder.emit(folder.id!); $event.stopPropagation()"
+              >
+                <i class="fas fa-trash"></i>
+              </button>
+              <button 
+                class="action-icon more-options" 
+                title="More options"
+                (click)="toggleFolderContextMenu(folder, $event)"
+              >
+                <i class="fas fa-ellipsis-vertical"></i>
+              </button>
+            </div>
+            
+            <!-- Context Menu for Folders -->
+            <div 
+              class="context-menu"
+              *ngIf="contextMenuFolder === folder && showContextMenu"
+              (click)="$event.stopPropagation()"
+            >
+              <div class="context-menu-item" (click)="onShareFolder(folder); closeContextMenu()">
+                <i class="fas fa-share-alt"></i>
+                <span>Share with</span>
+              </div>
+              <div class="context-menu-item" (click)="onFavoriteFolder(folder); closeContextMenu()">
+                <i class="fas fa-star"></i>
+                <span>Favorite</span>
+              </div>
+              <div class="context-menu-item" (click)="onRenameFolder(folder); closeContextMenu()">
+                <i class="fas fa-pencil-alt"></i>
+                <span>Rename</span>
+              </div>
+              <div class="context-menu-item" (click)="onAddFolderToFolder(folder); closeContextMenu()">
+                <i class="fas fa-folder-plus"></i>
+                <span>Add to folder</span>
+              </div>
+              <div class="context-menu-item" (click)="onMoveToFolder(folder); closeContextMenu()">
+                <i class="fas fa-folder-open"></i>
+                <span>Move to</span>
+              </div>
+              <div class="menu-separator" role="separator"></div>
+              <div class="context-menu-item" (click)="onViewDetailsFolder(folder); closeContextMenu()">
+                <i class="fas fa-file-alt"></i>
+                <span>View Details</span>
+              </div>
+              <div class="menu-separator" role="separator"></div>
+              <div class="context-menu-item danger" (click)="deleteFolder.emit(folder.id!); closeContextMenu()">
+                <i class="fas fa-trash"></i>
+                <span>Remove</span>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <!-- Files -->
+        <tr *ngFor="let file of files" class="file-row" (click)="onFileClick(file)">
+          <td class="checkbox-col">
+            <input type="checkbox" class="table-checkbox" (click)="$event.stopPropagation()" />
+          </td>
+          <td class="name-col">
+            <div class="file-name-cell">
+              <i class="fas fa-file file-icon"></i>
+              <span class="file-name">{{ file.name }}</span>
+            </div>
+          </td>
+          <td class="type-col">{{ getFileType(file) }}</td>
+          <td class="shared-col">
+            <div class="shared-tags">
+              <ng-container *ngIf="getSharedFor(file) as sharedList">
+                <span
+                  *ngFor="let shared of sharedList"
+                  class="shared-tag"
+                  [style.background-color]="getTagColor(shared)"
+                >
+                  {{ shared }}
+                </span>
+                <span *ngIf="sharedList.length === 0" class="no-shared">—</span>
+              </ng-container>
+            </div>
+          </td>
+          <td class="size-col">{{ formatFileSize(file.size) }}</td>
+          <td class="actions-col">
+            <div class="action-buttons">
+              <button 
+                *ngIf="!isDeletedView"
+                class="action-icon" 
+                title="Download"
+                (click)="onDownload(file); $event.stopPropagation()"
+              >
+                <i class="fas fa-download"></i>
+              </button>
+              <button 
+                *ngIf="isDeletedView"
+                class="action-icon danger" 
+                title="Delete Permanently"
+                (click)="onPermanentDelete(file.id ? file.id : ''); $event.stopPropagation()"
+              >
+                <i class="fas fa-trash"></i>
+              </button>
+              <button 
+                class="action-icon" 
+                title="Share"
+                (click)="onShare(file); $event.stopPropagation()"
+              >
+                <i class="fas fa-share-alt"></i>
+              </button>
+              <button 
+                class="action-icon" 
+                title="Add to folder"
+                (click)="onAddToFolder(file); $event.stopPropagation()"
+              >
+                <i class="fas fa-folder-plus"></i>
+              </button>
+              <button 
+                *ngIf="!isDeletedView"
+                class="action-icon" 
+                title="Delete"
+                (click)="onDelete(file.id ? file.id : ''); $event.stopPropagation()"
+              >
+                <i class="fas fa-trash"></i>
+              </button>
+              <button 
+                *ngIf="isDeletedView"
+                class="action-icon" 
+                title="Restore"
+                (click)="onDelete(file.id ? file.id : ''); $event.stopPropagation()"
+              >
+                <i class="fas fa-undo"></i>
+              </button>
+              <button 
+                class="action-icon more-options" 
+                title="More options"
+                (click)="toggleContextMenu(file, $event)"
+              >
+                <i class="fas fa-ellipsis-vertical"></i>
+              </button>
+            </div>
+            
+            <!-- Context Menu -->
+            <div 
+              class="context-menu"
+              *ngIf="contextMenuFile === file && showContextMenu"
+              (click)="$event.stopPropagation()"
+            >
+              <ng-container *ngIf="isDeletedView; else regularFileMenu">
+                <div class="context-menu-item" (click)="onDelete(file.id ? file.id : ''); closeContextMenu()">
+                  <i class="fas fa-undo"></i>
+                  <span>Restore</span>
+                </div>
+                <div class="context-menu-item danger" (click)="onPermanentDelete(file.id ? file.id : ''); closeContextMenu()">
+                  <i class="fas fa-trash"></i>
+                  <span>Delete Permanently</span>
+                </div>
+              </ng-container>
+              <ng-template #regularFileMenu>
+                <div class="context-menu-item" (click)="onShare(file); closeContextMenu()">
+                  <i class="fas fa-share-alt"></i>
+                  <span>Share with</span>
+                </div>
+                <div class="context-menu-item" (click)="onFavorite(file); closeContextMenu()">
+                  <i class="fas fa-star"></i>
+                  <span>Favorite</span>
+                </div>
+                <div class="context-menu-item" (click)="onRename(file); closeContextMenu()">
+                  <i class="fas fa-pencil-alt"></i>
+                  <span>Rename</span>
+                </div>
+                <div class="context-menu-item" (click)="onMoveTo(file); closeContextMenu()">
+                  <i class="fas fa-folder-open"></i>
+                  <span>Move to</span>
+                </div>
+                <div class="menu-separator" role="separator"></div>
+                <div class="context-menu-item" (click)="onViewDetails(file); closeContextMenu()">
+                  <i class="fas fa-file-alt"></i>
+                  <span>View Details</span>
+                </div>
+                <div class="context-menu-item" (click)="onDownload(file); closeContextMenu()">
+                  <i class="fas fa-download"></i>
+                  <span>Download</span>
+                </div>
+                <div class="menu-separator" role="separator"></div>
+                <div class="context-menu-item danger" (click)="onDelete(file.id ? file.id : ''); closeContextMenu()">
+                  <i class="fas fa-trash"></i>
+                  <span>Remove</span>
+                </div>
+              </ng-template>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <p *ngIf="!files || files.length === 0" class="empty">
-    No files uploaded yet.
-  </p>
+  <div *ngIf="(!folders || folders.length === 0) && (!files || files.length === 0)" class="empty-state">
+    <p>No folders or files uploaded yet.</p>
+  </div>
 </div>

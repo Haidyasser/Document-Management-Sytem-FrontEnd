@@ -1,8 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
 
-body {
-  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+:root {
+  --primary-blue: #1862D5;
+  --dark-grey: #404040;
+  --light-grey: #DFDFDF;
+  --white: #FFFFFF;
+  --text-dark: #404040;
+  --text-light: #6b7280;
+  --border-color: #e5e7eb;
+  --background: #FFFFFF;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: var(--text-dark);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+html, body { 
+  height: 100%; 
+}

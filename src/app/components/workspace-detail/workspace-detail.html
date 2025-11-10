@@ -1,34 +1,34 @@
-<div [class.sidebar-open]="sidebarOpen">
-  <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
+<div class="main-layout" [class.sidebar-open]="sidebarOpen">
   <app-sidebar [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar>
+  <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen" (newFile)="openFileForm()" (newFolder)="openFolderForm()"></app-top-bar>
 
-  <div class="workspace-container">
-    <div class="workspace-header">
-      <h2>{{ workspace?.name }}</h2>
-      <div class="actions">
-        <button class="btn btn-primary" (click)="openFolderForm()">+ New Folder</button>
-        <button class="btn btn-secondary" (click)="openFileForm()">+ Upload File</button>
-      </div>
-    </div>
-
-    <p class="workspace-description">{{ workspace?.description }}</p>
-
+  <main class="main-content">
     <div *ngIf="loading" class="loading">Loading...</div>
     <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 
     <div *ngIf="workspace && !loading">
-      <app-folder-list
+      <app-file-list
         [folders]="workspace.folders || []"
+        [files]="workspace.files || []"
+        [title]="workspace.name"
         (openFolder)="onOpenFolder($event)"
         (deleteFolder)="onDeleteFolder($event)"
-      ></app-folder-list> 
-
-      <app-file-list
-        [files]="workspace.files || []"
+        (shareFolder)="onShareFolder($event)"
+        (favoriteFolder)="onFavoriteFolder($event)"
+        (renameFolder)="onRenameFolder($event)"
+        (moveToFolder)="onMoveToFolder($event)"
+        (viewDetailsFolder)="onViewDetailsFolder($event)"
+        (addFolderToFolder)="onAddFolderToFolder($event)"
         (downloadFile)="onDownloadFile($event)"
         (deleteFile)="onDeleteFile($event)"
         (previewFile)="onPreviewFile($event)"
+        (shareFile)="onShareFile($event)"
+        (addToFolder)="onAddToFolder($event)"
+        (favoriteFile)="onFavoriteFile($event)"
+        (renameFile)="onRenameFile($event)"
+        (moveToFile)="onMoveToFile($event)"
+        (viewDetailsFile)="onViewDetailsFile($event)"
       ></app-file-list>
     </div>
-  </div>
+  </main>
 </div>

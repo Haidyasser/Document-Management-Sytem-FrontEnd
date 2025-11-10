@@ -74,8 +74,26 @@ export class FolderDetailComponent implements OnInit {
   }
 
   onPreviewFile(file: FileEntity): void {
-    // implement preview logic if you have one
-    console.log('Preview file', file);
+    this.workspaceService.previewFile(this.workspaceId, file.id!).subscribe({
+      next: (res: any) => {
+        if (res.type.startsWith('image/')) {
+          const imageSrc = `data:${res.type};base64,${res.base64}`;
+          window.open(imageSrc, '_blank');
+        } else if (res.type === 'application/pdf') {
+          const pdfSrc = `data:${res.type};base64,${res.base64}`;
+          const win = window.open();
+          if (win) {
+            win.document.write(`<iframe src="${pdfSrc}" width="100%" height="100%"></iframe>`);
+          }
+        } else {
+          alert('Preview not supported for this file type');
+        }
+      },
+      error: (err: any) => {
+        console.error('Preview failed', err);
+        alert('Failed to preview file');
+      }
+    });
   }
 
   onDeleteFile(fileId: string): void {

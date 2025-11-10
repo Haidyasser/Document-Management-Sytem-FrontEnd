@@ -17,7 +17,7 @@ export class HomeWorkspaceComponent implements OnInit {
   workspaces: Workspace[] = [];
   loading = false;
   error = '';
-  sidebarOpen = true;
+  sidebarOpen = true; // Sidebar open by default
 
   // track expanded state per item (use index if ws.id not present)
   expanded: Record<number, boolean> = {};
@@ -28,8 +28,10 @@ export class HomeWorkspaceComponent implements OnInit {
 
   fetchWorkspaces(): void {
     this.loading = true;
+    console.log('Fetching workspaces from', this.ws);
     this.ws.getAll().subscribe({
       next: (data: Workspace[]) => {
+        console.log('Fetched workspaces:', data);
         this.workspaces = data ?? [];
         this.loading = false;
       },

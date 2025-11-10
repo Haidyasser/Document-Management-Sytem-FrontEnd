@@ -4,4 +4,8 @@ export interface FileEntity {
   type: string;
   path: string;
   createdAt?: Date;
+  documentNo?: string;
+  revisionNo?: string;
+  sharedWith?: string[];
+  size?: number;
 }
