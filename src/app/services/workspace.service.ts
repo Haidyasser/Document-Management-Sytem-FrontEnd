@@ -149,10 +149,18 @@ export class WorkspaceService {
   }
 
   previewFile(workspaceId: string, fileId: string): Observable<any> {
-  return this.http.get(`${this.baseUrl}/${workspaceId}/files/${fileId}/preview`, {
-    headers: this.getAuthHeaders(),
-  });
-}
+    return this.http.get(`${this.baseUrl}/${workspaceId}/files/${fileId}/preview`, {
+      headers: this.getAuthHeaders(),
+      responseType: 'json' as 'json'
+    });
+  }
+
+  previewFileAsBlob(workspaceId: string, fileId: string): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/${workspaceId}/files/${fileId}/preview`, {
+      headers: this.getAuthHeaders(),
+      responseType: 'blob' as 'blob'
+    });
+  }
 
 }
 

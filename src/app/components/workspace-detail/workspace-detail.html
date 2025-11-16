@@ -1,6 +1,6 @@
 <div class="main-layout" [class.sidebar-open]="sidebarOpen">
   <app-sidebar [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar>
-  <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen" (newFile)="openFileForm()" (newFolder)="openFolderForm()"></app-top-bar>
+  <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen" (newFile)="openFileForm()" (newFolder)="openFolderForm()" (searchQueryChange)="onSearchQueryChange($event)"></app-top-bar>
 
   <main class="main-content">
     <div *ngIf="loading" class="loading">Loading...</div>
@@ -8,8 +8,8 @@
 
     <div *ngIf="workspace && !loading">
       <app-file-list
-        [folders]="workspace.folders || []"
-        [files]="workspace.files || []"
+        [folders]="getFilteredFolders()"
+        [files]="getFilteredFiles()"
         [title]="workspace.name"
         (openFolder)="onOpenFolder($event)"
         (deleteFolder)="onDeleteFolder($event)"

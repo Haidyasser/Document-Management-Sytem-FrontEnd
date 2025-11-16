@@ -52,6 +52,13 @@ export class FileService {
     });
   }
 
+  deleteFile(id: string): Observable<{ message: string }> {
+    // Backend soft delete endpoint lives under /workspaces/files/{id}
+    return this.http.delete<{ message: string }>(`${this.workspacesUrl}/files/${id}`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
   uploadFile(workspaceId: string, formData: FormData): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({

@@ -1,6 +1,6 @@
 <div class="main-layout" [class.sidebar-open]="sidebarOpen">
   <app-sidebar [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar>
-  <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
+  <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen" (searchQueryChange)="onSearchQueryChange($event)"></app-top-bar>
 
   <main class="main-content">
     <div *ngIf="loading" class="loading">Loading recent files...</div>
@@ -8,7 +8,7 @@
 
     <div *ngIf="!loading && !errorMessage">
       <app-file-list
-        [files]="files"
+        [files]="getFilteredFiles()"
         [title]="listTitle"
         [isDeletedView]="isDeletedView"
         (downloadFile)="onDownloadFile($event)"

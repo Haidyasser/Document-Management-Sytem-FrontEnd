@@ -32,6 +32,7 @@ export class FileListComponent {
   @Output() moveToFolder = new EventEmitter<Folder>();
   @Output() viewDetailsFile = new EventEmitter<FileEntity>();
   @Output() viewDetailsFolder = new EventEmitter<Folder>();
+  @Output() deleteAll = new EventEmitter<void>();
 
   showContextMenu = false;
   contextMenuFile: FileEntity | null = null;

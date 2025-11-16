@@ -16,6 +16,7 @@ export class TopBarComponent {
   @Output() toggleSidebar = new EventEmitter<void>();
   @Output() newFile = new EventEmitter<void>();
   @Output() newFolder = new EventEmitter<void>();
+  @Output() searchQueryChange = new EventEmitter<string>();
   @Input() sidebarOpen = false;
   searchQuery = '';
   firstName = 'Admin';
@@ -54,5 +55,9 @@ export class TopBarComponent {
   @HostListener('document:click')
   closeOnOutsideClick() {
     if (this.showNewMenu) this.showNewMenu = false;
+  }
+
+  onSearchChange() {
+    this.searchQueryChange.emit(this.searchQuery);
   }
 }

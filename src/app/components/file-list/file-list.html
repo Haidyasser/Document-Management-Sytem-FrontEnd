@@ -1,6 +1,13 @@
 <div class="file-list-container">
   <h2 class="section-title">{{ title }}</h2>
-  
+
+  <div class="bulk-actions" *ngIf="isDeletedView">
+    <button class="danger-button" (click)="deleteAll.emit()">
+      <i class="fas fa-trash"></i>
+      <span>Delete All</span>
+    </button> 
+  </div>
+
   <div class="table-wrapper" *ngIf="(folders && folders.length > 0) || (files && files.length > 0)">
     <table class="files-table">
       <thead>
@@ -10,10 +17,12 @@
           </th>
           <th class="name-col">
             <span>Name</span>
-            <i class="fas fa-sort-down sort-icon"></i>
+            <i class="fas fa-arrow-down sort-icon"></i>
           </th>
-          <th class="type-col">Type</th>
+          <th class="type-col" *ngIf="!isDeletedView">Type</th>
           <th class="shared-col">Shared With</th>
+          <th class="docno-col" *ngIf="isDeletedView">Document No</th>
+          <th class="revno-col" *ngIf="isDeletedView">Revision No</th>
           <th class="size-col">Size</th>
           <th class="actions-col">Actions</th>
         </tr>
@@ -30,14 +39,17 @@
               <span class="file-name">{{ folder.name }}</span>
             </div>
           </td>
-          <td class="type-col">Folder</td>
+          <td class="type-col" *ngIf="!isDeletedView">Folder</td>
           <td class="shared-col">
             <span class="no-shared">—</span>
           </td>
+          <td class="docno-col" *ngIf="isDeletedView">—</td>
+          <td class="revno-col" *ngIf="isDeletedView">—</td>
           <td class="size-col">{{ getFolderFileCount(folder) }} {{ getFolderFileCount(folder) === 1 ? 'file' : 'files' }}</td>
           <td class="actions-col">
             <div class="action-buttons">
               <button
+                *ngIf="!isDeletedView"
                 class="action-icon"
                 title="Share"
                 (click)="onShareFolder(folder); $event.stopPropagation()"
@@ -45,6 +57,7 @@
                 <i class="fas fa-share-alt"></i>
               </button>
               <button
+                *ngIf="!isDeletedView"
                 class="action-icon"
                 title="Add to folder"
                 (click)="onAddFolderToFolder(folder); $event.stopPropagation()"
@@ -117,7 +130,7 @@
               <span class="file-name">{{ file.name }}</span>
             </div>
           </td>
-          <td class="type-col">{{ getFileType(file) }}</td>
+          <td class="type-col" *ngIf="!isDeletedView">{{ getFileType(file) }}</td>
           <td class="shared-col">
             <div class="shared-tags">
               <ng-container *ngIf="getSharedFor(file) as sharedList">
@@ -132,66 +145,70 @@
               </ng-container>
             </div>
           </td>
+          <td class="docno-col" *ngIf="isDeletedView">{{ file.documentNo || '—' }}</td>
+          <td class="revno-col" *ngIf="isDeletedView">{{ file.revisionNo || '—' }}</td>
           <td class="size-col">{{ formatFileSize(file.size) }}</td>
           <td class="actions-col">
             <div class="action-buttons">
-              <button 
+              <button
                 *ngIf="!isDeletedView"
-                class="action-icon" 
+                class="action-icon"
                 title="Download"
                 (click)="onDownload(file); $event.stopPropagation()"
               >
                 <i class="fas fa-download"></i>
               </button>
-              <button 
+              <button
                 *ngIf="isDeletedView"
-                class="action-icon danger" 
+                class="action-icon"
                 title="Delete Permanently"
                 (click)="onPermanentDelete(file.id ? file.id : ''); $event.stopPropagation()"
               >
                 <i class="fas fa-trash"></i>
               </button>
-              <button 
-                class="action-icon" 
+              <button
+                *ngIf="!isDeletedView"
+                class="action-icon"
                 title="Share"
                 (click)="onShare(file); $event.stopPropagation()"
               >
                 <i class="fas fa-share-alt"></i>
               </button>
-              <button 
-                class="action-icon" 
+              <button
+                *ngIf="!isDeletedView"
+                class="action-icon"
                 title="Add to folder"
                 (click)="onAddToFolder(file); $event.stopPropagation()"
               >
                 <i class="fas fa-folder-plus"></i>
               </button>
-              <button 
+              <button
                 *ngIf="!isDeletedView"
-                class="action-icon" 
+                class="action-icon"
                 title="Delete"
                 (click)="onDelete(file.id ? file.id : ''); $event.stopPropagation()"
               >
                 <i class="fas fa-trash"></i>
               </button>
-              <button 
+              <button
                 *ngIf="isDeletedView"
-                class="action-icon" 
+                class="action-icon"
                 title="Restore"
                 (click)="onDelete(file.id ? file.id : ''); $event.stopPropagation()"
               >
                 <i class="fas fa-undo"></i>
               </button>
-              <button 
-                class="action-icon more-options" 
+              <button
+                class="action-icon more-options"
                 title="More options"
                 (click)="toggleContextMenu(file, $event)"
               >
                 <i class="fas fa-ellipsis-vertical"></i>
               </button>
             </div>
-            
+
             <!-- Context Menu -->
-            <div 
+            <div
               class="context-menu"
               *ngIf="contextMenuFile === file && showContextMenu"
               (click)="$event.stopPropagation()"
