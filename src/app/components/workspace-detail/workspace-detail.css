@@ -34,6 +34,40 @@
   font-size: 14px;
 }
 
+.workspace-header-info {
+  padding: 40px 40px 20px 40px;
+}
+
+.workspace-title-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.workspace-name {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.workspace-type-badge {
+  font-size: 12px;
+  color: #555f6b;
+  background: rgba(10, 46, 92, 0.06);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 500;
+}
+
+.workspace-description {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .main-content {

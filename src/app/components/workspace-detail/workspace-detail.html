@@ -7,10 +7,17 @@
     <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 
     <div *ngIf="workspace && !loading">
+      <div class="workspace-header-info">
+        <div class="workspace-title-section">
+          <h2 class="workspace-name">{{ workspace.name }}</h2>
+          <span class="workspace-type-badge" *ngIf="workspace.type">{{ workspace.type }}</span>
+        </div>
+        <p class="workspace-description" *ngIf="workspace.description">{{ workspace.description }}</p>
+      </div>
       <app-file-list
         [folders]="getFilteredFolders()"
         [files]="getFilteredFiles()"
-        [title]="workspace.name"
+        [title]="''"
         (openFolder)="onOpenFolder($event)"
         (deleteFolder)="onDeleteFolder($event)"
         (shareFolder)="onShareFolder($event)"
