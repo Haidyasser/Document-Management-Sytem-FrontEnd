@@ -16,13 +16,17 @@ export class LoginComponent {
   form: FormGroup;
   loading = false;
   error: string | null = null;
+  showPassword = false;
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
     this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      rememberMe: [false]
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 
   submit() {
@@ -31,11 +35,11 @@ export class LoginComponent {
     this.error = null;
     const { email, password } = this.form.value as { email: string; password: string };
     this.auth.login({ email, password }).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         this.router.navigate(['/']);
         localStorage.setItem('token', response.token);
       },
-      error: err => { this.error = err?.message || 'Login failed'; this.loading = false; }
+      error: (err: any) => { this.error = err?.message || 'Login failed'; this.loading = false; }
     });
   }
 }

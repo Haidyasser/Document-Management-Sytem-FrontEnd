@@ -1,13 +1,13 @@
 <h2 mat-dialog-title class="dialog-title">
-  {{ data.mode === 'create' ? 'New Folder' : 'Edit Folder' }}
+  Edit Workspace
 </h2>
 
 <mat-dialog-content class="dialog-content">
   <div class="dialog-row">
     <div class="form-field name">
       <mat-form-field class="input-field">
-        <mat-label>Folder Name</mat-label>
-        <input matInput [(ngModel)]="folderName" name="folderName" />
+        <mat-label>Workspace Name</mat-label>
+        <input matInput [(ngModel)]="workspaceName" name="workspaceName" required />
       </mat-form-field>
     </div>
 
@@ -27,5 +27,6 @@
 
 <mat-dialog-actions align="end" class="dialog-actions">
   <button mat-stroked-button (click)="onCancel()">Cancel</button>
-  <button mat-flat-button color="primary" (click)="onSave()">Save</button>
+  <button mat-flat-button color="primary" (click)="onSave()" [disabled]="!workspaceName">Save</button>
 </mat-dialog-actions>
+

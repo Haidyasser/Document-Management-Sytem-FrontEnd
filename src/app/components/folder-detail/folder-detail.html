@@ -1,6 +1,6 @@
 <div [class.sidebar-open]="sidebarOpen">
   <app-sidebar [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar>
-  <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
+  <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen" (searchQueryChange)="onSearchQueryChange($event)"></app-top-bar>
 
   <div class="workspace-container">
     <div class="workspace-header">
@@ -24,7 +24,7 @@
 
     <div *ngIf="!loading && folder">
       <app-file-list
-        [files]="files"
+        [files]="getFilteredFiles()"
         (previewFile)="onPreviewFile($event)"
         (deleteFile)="onDeleteFile($event)"
       ></app-file-list>

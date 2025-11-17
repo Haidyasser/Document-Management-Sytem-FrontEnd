@@ -1,52 +1,67 @@
-<div class="auth-screen">
-  <div class="auth-panel">
-    <section class="promo-section" aria-label="Welcome message">
-      <h2 class="promo-title">Document Management</h2>
-      <p class="promo-sub">Welcome to DMS</p>
-    </section>
+<div class="login-screen">
+  <div class="login-container">
+    <!-- Curved gradient arc on the left -->
+    <div class="gradient-arc"></div>
 
-    <section class="form-section" aria-label="Sign in form">
-      <div class="form-frame">
-        <h3 class="form-title">Sign In</h3>
-        <form class="login-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
-          <div class="input-wrapper">
-            <label class="text-label" for="email">Email</label>
-            <input id="email" class="text-input" formControlName="email" type="email" placeholder="name@example.com" />
-            <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="validation-text">
-      <small *ngIf="form.get('email')?.errors?.['required']">Email required</small>
-      <small *ngIf="form.get('email')?.errors?.['email']">Invalid email</small>
-      <small *ngIf="form.get('email')?.errors?.['server'] as e">{{ e }}</small>
-    </div>
+    <!-- Login form on the right -->
+    <div class="login-form-container">
+      <h1 class="login-title">Login</h1>
+      <form class="login-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="input-group">
+          <label class="input-label" for="username">Email</label>
+          <input
+            id="username"
+            class="form-input"
+            formControlName="email"
+            type="email"
+            placeholder="Email"
+          />
+          <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="validation-error">
+            <small *ngIf="form.get('email')?.errors?.['required']">Email required</small>
+            <small *ngIf="form.get('email')?.errors?.['server'] as e">{{ e }}</small>
           </div>
+        </div>
 
-          <div class="input-wrapper">
-            <label class="text-label" for="password">Password</label>
-            <input id="password" class="text-input" formControlName="password" type="password" placeholder="••••••" />
-            <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="validation-text">
-      <small *ngIf="form.get('password')?.errors?.['required']">Password required</small>
-      <small *ngIf="form.get('password')?.errors?.['minlength']">Min 6 characters</small>
-      <small *ngIf="form.get('password')?.errors?.['server'] as e">{{ e }}</small>
-    </div>
+        <div class="input-group">
+          <label class="input-label" for="password">Password</label>
+          <div class="password-wrapper">
+            <input
+              id="password"
+              class="form-input"
+              formControlName="password"
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="Password"
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePassword()"
+              aria-label="Toggle password visibility"
+            >
+              <i class="fas" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
+            </button>
           </div>
-
-          <div class="support-row">
-            <label class="remember-toggle">
-              <input type="checkbox" formControlName="rememberMe" />
-              <span>Remember me</span>
-            </label>
-            <a class="muted-link" href="#" aria-label="Forgot password">Forgot Password?</a>
+          <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="validation-error">
+            <small *ngIf="form.get('password')?.errors?.['required']">Password required</small>
+            <small *ngIf="form.get('password')?.errors?.['minlength']">Min 6 characters</small>
+            <small *ngIf="form.get('password')?.errors?.['server'] as e">{{ e }}</small>
           </div>
+        </div>
 
-          <div *ngIf="error" class="error-text" role="alert">{{ error }}</div>
+        <div class="form-actions">
+          <a class="forgot-password-link" href="#" aria-label="Forgot password">Forgot Password?</a>
+          <button type="submit" class="login-btn" [disabled]="loading || form.invalid">
+            Login
+          </button>
+        </div>
 
-          <button type="submit" class="submit-btn" [disabled]="loading || form.invalid">Sign In</button>
+        <div *ngIf="error" class="error-message" role="alert">{{ error }}</div>
+      </form>
 
-          <div class="below-actions">
-            <span>New here?</span>
-            <a class="secondary-link" routerLink="/register">Sign Up</a>
-          </div>
-        </form>
+      <div class="signup-link">
+        <span>Don't have an account?</span>
+        <a routerLink="/register" class="signup-link-text">Create now</a>
       </div>
-    </section>
+    </div>
   </div>
 </div>

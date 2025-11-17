@@ -1,37 +1,54 @@
-<div class="workspace-container">
+<div class="main-layout" [class.sidebar-open]="sidebarOpen">
   <app-sidebar [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar>
+  <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen" (searchQueryChange)="onSearchQueryChange($event)"></app-top-bar>
 
   <!-- Main Content -->
-  <main class="main-content" [class.sidebar-open]="sidebarOpen">
-    <!-- pass sidebar state into top-bar -->
-    <app-top-bar (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-top-bar>
-
+  <main class="main-content">
     <section class="workspaces">
       <div class="workspace-header">
         <h2>Workspaces</h2>
         <button class="create-btn" (click)="onCreateWorkspace()">
-          <i class="fa fa-plus"></i> Create Workspace
+          <i class="fas fa-plus"></i> Create Workspace
         </button>
       </div>
 
       <div *ngIf="error" class="error">{{ error }}</div>
 
       <div class="workspace-grid">
-        <article class="workspace-frame" *ngFor="let ws of workspaces; let i = index" (click)="openWorkspace(ws)">
+        <article class="workspace-frame" *ngFor="let ws of getFilteredWorkspaces(); let i = index" (click)="openWorkspace(ws)">
+          
+          
           <div class="frame-top">
-            <i class="fa fa-folder frame-icon" aria-hidden="true"></i>
-            <span class="frame-type">{{ ws.type || 'Workspace' }}</span>
+            <div class="frame-top-left">
+              <i class="fas fa-folder frame-icon" aria-hidden="true"></i>
+            </div>
+            <div class="menu-container">
+              <button class="menu-button" (click)="toggleMenu(i); $event.stopPropagation()" type="button" aria-label="Menu">
+                <i class="fas fa-ellipsis-v"></i>
+              </button>
+              <div class="dropdown-menu" *ngIf="openMenuIndex === i" (click)="$event.stopPropagation()">
+                <button class="menu-item" (click)="onEdit(ws); $event.stopPropagation()">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="menu-item" (click)="onDetails(ws); $event.stopPropagation()">
+                  <i class="fas fa-info-circle"></i> Details
+                </button>
+                <button class="menu-item delete" (click)="onDelete(ws); $event.stopPropagation()">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div>
+            </div>
           </div>
 
           <div class="frame-body" (click)="$event.stopPropagation()">
             <h3 class="frame-title">{{ ws.name }}</h3>
 
             <!-- description: truncated by default, expands when toggled -->
-            <p class="frame-desc" [class.expanded]="expanded[i]">{{ ws.description || 'No description' }}</p>
+            <p class="frame-desc" [class.expanded]="isExpanded(ws, i)">{{ ws.description || 'No description' }}</p>
 
             <!-- toggle button only when there's a description longer than 1 line -->
-            <button *ngIf="ws.description" type="button" class="desc-toggle" (click)="toggleExpand(i)">
-              {{ expanded[i] ? 'Show less' : 'Show more' }}
+            <button *ngIf="ws.description" type="button" class="desc-toggle" (click)="toggleExpand(ws, i)">
+              {{ isExpanded(ws, i) ? 'Show less' : 'Show more' }}
             </button>
           </div>
         </article>

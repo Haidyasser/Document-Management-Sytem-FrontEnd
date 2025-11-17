@@ -1,15 +1,48 @@
 <aside class="sidebar" [class.closed]="!open">
   <div class="sidebar-header">
-    <h2 class="logo">DMS</h2>
-    <button class="close-btn" aria-label="Close sidebar" (click)="closeSidebar()">☰</button>
+    <div class="logo-container">
+      <div class="logo-english">Document Manager</div>
+
+    </div>
+    <button class="close-btn" aria-label="Close sidebar" (click)="closeSidebar()" *ngIf="open">
+      <i class="fas fa-times"></i>
+    </button>
   </div>
   <ul class="nav-links">
-    <li><i class="fa fa-home"></i> Dashboard</li>
-    <li class="active"><i class="fa fa-folder"></i> Workspaces</li>
-    <li><i class="fa fa-file"></i> Documents</li>
-    <li><i class="fa fa-search"></i> Search</li>
-    <li><i class="fa fa-user"></i> Profile</li>
-    <li><i class="fa fa-cog"></i> Settings</li>
-    <li (click)="logout()"><i class="fa fa-power-off"></i> Logout</li>
+    <li class="nav-item" [class.active]="activeRoute === 'my-workspaces'" (click)="navigateTo('my-workspaces')">
+      <i class="fas fa-folder"></i>
+      <span>My Workspaces</span>
+    </li>
+    <li class="nav-item" [class.active]="activeRoute === 'recent'" (click)="navigateTo('recent')">
+      <i class="fas fa-clock"></i>
+      <span>Recent Files</span>
+    </li>
+    <li class="nav-item" [class.active]="activeRoute === 'shared'" (click)="navigateTo('shared')">
+      <i class="fas fa-share-nodes"></i>
+      <span>Shared With Me</span>
+    </li>
+    <li class="nav-item" [class.active]="activeRoute === 'favorite'" (click)="navigateTo('favorite')">
+      <i class="fas fa-star"></i>
+      <span>Favorite</span>
+    </li>
+    <li class="nav-item" [class.active]="activeRoute === 'deleted'" (click)="navigateTo('deleted')">
+      <i class="fas fa-trash"></i>
+      <span>Recently Deleted</span>
+    </li>
+    <li class="nav-separator" aria-hidden="true"></li>
+    <li class="nav-item" [class.active]="activeRoute === 'users'" (click)="navigateTo('users')">
+      <i class="fas fa-user-gear"></i>
+      <span>Manage Users</span>
+    </li>
+    <li class="nav-item" [class.active]="activeRoute === 'account'" (click)="navigateTo('account')">
+      <i class="fas fa-circle-user"></i>
+      <span>My Account</span>
+    </li>
   </ul>
+  <div class="sidebar-footer">
+    <div class="nav-item logout-item" (click)="logout()">
+      <i class="fas fa-power-off"></i>
+      <span>Logout</span>
+    </div>
+  </div>
 </aside>

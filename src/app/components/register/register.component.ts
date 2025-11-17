@@ -18,6 +18,7 @@ export class RegisterComponent {
   loading = false;
   error: string | null = null;
   validationSummary: string[] = [];
+  showPassword = false;
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
     this.form = this.fb.group({
@@ -27,6 +28,10 @@ export class RegisterComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 
   private clearServerErrors() {

@@ -23,11 +23,11 @@ export class WorkspaceService {
   // -----------------------
 
   getAll(): Observable<Workspace[]> {
-    return this.http.get<Workspace[]>(this.baseUrl, { headers: this.getAuthHeaders() });
+    return this.http.get<Workspace[]>(this.baseUrl + '/root', { headers: this.getAuthHeaders() });
   }
 
   getById(workspaceId: string): Observable<Workspace> {
-    return this.http.get<Workspace>(`${this.baseUrl}/${workspaceId}`, {
+    return this.http.get<Workspace>(`${this.baseUrl}/${workspaceId}/tree`, {
       headers: this.getAuthHeaders(),
     });
   }
@@ -51,14 +51,27 @@ export class WorkspaceService {
   }
 
   // -----------------------
+  // 🔸 Subfolders / children
+  // -----------------------
+
+  getSubfolders(parentId: string): Observable<Workspace[]> {
+    return this.http.get<Workspace[]>(`${this.baseUrl}/${parentId}/children`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  // -----------------------
   // 📂 Folder Operations
   // -----------------------
 
   addFolder(workspaceId: string, folder: Folder): Observable<Workspace> {
-    return this.http.post<Workspace>(`${this.baseUrl}/${workspaceId}/folders`, folder, {
-      headers: this.getAuthHeaders(),
-    });
-  }
+  const folderData = { ...folder, parentId: workspaceId };
+  console.log('Adding folder from service', folderData);
+  return this.http.post<Workspace>(this.baseUrl, folderData, {
+    headers: this.getAuthHeaders(),
+  });
+}
+
 
   addSubFolder(workspaceId: string, parentFolderId: string, folder: Folder): Observable<Workspace> {
     return this.http.post<Workspace>(
@@ -76,17 +89,18 @@ export class WorkspaceService {
     );
   }
 
-  deleteFolder(workspaceId: string, folderId: string): Observable<Workspace> {
-  return this.http.delete<Workspace>(
-    `${this.baseUrl}/${workspaceId}/folders/${folderId}`,
-    { headers: this.getAuthHeaders() }
-  );
-}
+  deleteFolder(folderId: string): Observable<Workspace> {
+    return this.http.delete<Workspace>(
+      `${this.baseUrl}/${folderId}`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
 
   // -----------------------
   // 📄 File Operations
   // -----------------------
 
+  // metadata-only add (if backend supports)
   addFile(workspaceId: string, file: FileEntity, folderId?: string): Observable<Workspace> {
     const url = folderId
       ? `${this.baseUrl}/${workspaceId}/folders/${folderId}/files`
@@ -103,34 +117,50 @@ export class WorkspaceService {
     );
   }
 
-  deleteFile(workspaceId: string, fileId: string): Observable<Workspace> {
-    return this.http.delete<Workspace>(`${this.baseUrl}/${workspaceId}/files/${fileId}`, {
+  // backend controller expects DELETE /api/workspaces/files/{fileId} for soft delete
+  deleteFile(_workspaceId: string | null, fileId: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/files/${fileId}`, {
       headers: this.getAuthHeaders(),
     });
   }
 
-  uploadFile(workspaceId: string, file: File): Observable<Workspace> {
-  const formData = new FormData();
-  formData.append('file', file);
+  // upload binary multipart form (backend: POST /{workspaceId}/files)
+  uploadFile(workspaceId: string, file: File, folderId?: string, providedName?: string): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    if (providedName) {
+      // backend controller currently uses original filename; include if backend updated to accept it
+      formData.append('name', providedName);
+    }
 
-  const token = localStorage.getItem('token');
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${token}`
-  });
+    const url = folderId
+      ? `${this.baseUrl}/${workspaceId}/folders/${folderId}/files`
+      : `${this.baseUrl}/${workspaceId}/files`;
 
-  return this.http.post<Workspace>(
-    `${this.baseUrl}/${workspaceId}/files`,
-    formData,
-    { headers }
-  );
-}
+    const headers = this.getAuthHeaders(); // do not set Content-Type — browser sets boundary
+    return this.http.post<any>(url, formData, { headers });
+  }
 
-downloadFile(workspaceId: string, fileId: string): Observable<Blob> {
-  return this.http.get(`${this.baseUrl}/${workspaceId}/files/${fileId}/download`, {
-    responseType: 'blob'
-  });
-}
+  downloadFile(workspaceId: string, fileId: string): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/${workspaceId}/files/${fileId}/download`, {
+      headers: this.getAuthHeaders(),
+      responseType: 'blob' as 'blob'
+    });
+  }
 
+  previewFile(workspaceId: string, fileId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${workspaceId}/files/${fileId}/preview`, {
+      headers: this.getAuthHeaders(),
+      responseType: 'json' as 'json'
+    });
+  }
+
+  previewFileAsBlob(workspaceId: string, fileId: string): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/${workspaceId}/files/${fileId}/preview`, {
+      headers: this.getAuthHeaders(),
+      responseType: 'blob' as 'blob'
+    });
+  }
 
 }
 

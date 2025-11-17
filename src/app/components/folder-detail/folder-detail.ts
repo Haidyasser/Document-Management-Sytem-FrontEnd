@@ -24,6 +24,7 @@ export class FolderDetailComponent implements OnInit {
   loading = false;
   errorMessage = '';
   sidebarOpen = false;
+  searchQuery = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -73,9 +74,194 @@ export class FolderDetailComponent implements OnInit {
     });
   }
 
+  private isImageFile(file: FileEntity, mimeType?: string): boolean {
+    // Check by MIME type
+    if (mimeType && mimeType.startsWith('image/')) {
+      return true;
+    }
+    // Check by file extension as fallback
+    const fileName = file.displayName?.toLowerCase() || '';
+    return /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(fileName);
+  }
+
+  private getImageMimeType(file: FileEntity, responseType?: string): string {
+    // If response has correct MIME type, use it
+    if (responseType && responseType.startsWith('image/')) {
+      return responseType;
+    }
+    // Fallback: determine MIME type from file extension
+    const fileName = file.displayName?.toLowerCase() || '';
+    if (fileName.endsWith('.png')) return 'image/png';
+    if (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg')) return 'image/jpeg';
+    if (fileName.endsWith('.gif')) return 'image/gif';
+    if (fileName.endsWith('.bmp')) return 'image/bmp';
+    if (fileName.endsWith('.webp')) return 'image/webp';
+    if (fileName.endsWith('.svg')) return 'image/svg+xml';
+    // Default fallback
+    return responseType || 'image/png';
+  }
+
   onPreviewFile(file: FileEntity): void {
-    // implement preview logic if you have one
-    console.log('Preview file', file);
+    console.log('Previewing file:', file);
+    
+    // First try JSON response (base64)
+    this.workspaceService.previewFile(this.workspaceId, file.id!).subscribe({
+      next: (res: any) => {
+        console.log('Preview response:', res);
+        const mimeType = res.type || res.mimeType || file.type || '';
+        const base64Data = res.base64 || res.data || res.content || res;
+        
+        // Check if it's an image (including PNG)
+        if (this.isImageFile(file, mimeType)) {
+          const imageMimeType = this.getImageMimeType(file, mimeType);
+          
+          // Handle different response formats
+          let imageSrc: string;
+          if (typeof base64Data === 'string') {
+            // If already a data URL, use it directly
+            if (base64Data.startsWith('data:')) {
+              imageSrc = base64Data;
+            } else {
+              // If it's base64 without prefix, add the data URL prefix
+              imageSrc = `data:${imageMimeType};base64,${base64Data}`;
+            }
+          } else {
+            console.error('Unexpected response format for image preview, trying blob...');
+            // Fallback to blob approach
+            this.tryBlobPreview(file, imageMimeType);
+            return;
+          }
+          
+          console.log('Opening image preview:', imageSrc.substring(0, 50) + '...');
+          this.openImagePreview(imageSrc, file.displayName);
+        } else if (mimeType === 'application/pdf' || file.displayName?.toLowerCase().endsWith('.pdf')) {
+          const pdfBase64 = typeof base64Data === 'string' ? base64Data : '';
+          const pdfSrc = pdfBase64.startsWith('data:') ? pdfBase64 : `data:application/pdf;base64,${pdfBase64}`;
+          this.openPdfPreview(pdfSrc, file.displayName);
+        } else {
+          alert('Preview not supported for this file type');
+        }
+      },
+      error: (err: any) => {
+        console.error('Preview failed (JSON), trying blob...', err);
+        // If JSON fails, try blob response
+        if (this.isImageFile(file)) {
+          const imageMimeType = this.getImageMimeType(file);
+          this.tryBlobPreview(file, imageMimeType);
+        } else {
+          alert(`Failed to preview file: ${err?.error?.message || err?.message || 'Unknown error'}`);
+        }
+      }
+    });
+  }
+
+  private tryBlobPreview(file: FileEntity, mimeType: string): void {
+    this.workspaceService.previewFileAsBlob(this.workspaceId, file.id!).subscribe({
+      next: (blob: Blob) => {
+        console.log('Received blob preview:', blob.type, blob.size);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const imageSrc = reader.result as string;
+          this.openImagePreview(imageSrc, file.displayName);
+        };
+        reader.onerror = () => {
+          console.error('Failed to read blob');
+          alert('Failed to preview image');
+        };
+        reader.readAsDataURL(blob);
+      },
+      error: (err: any) => {
+        console.error('Blob preview failed', err);
+        alert(`Failed to preview file: ${err?.error?.message || err?.message || 'Unknown error'}`);
+      }
+    });
+  }
+
+  private openImagePreview(imageSrc: string, fileName: string): void {
+    const win = window.open('', '_blank');
+    if (win) {
+      win.document.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>${fileName}</title>
+            <style>
+              body {
+                margin: 0;
+                padding: 20px;
+                background: #f0f0f0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+              }
+              img {
+                max-width: 100%;
+                max-height: 100vh;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+              }
+            </style>
+          </head>
+          <body>
+            <img src="${imageSrc}" alt="${fileName}" />
+          </body>
+        </html>
+      `);
+      win.document.close();
+    }
+  }
+
+  private openPdfPreview(pdfSrc: string, fileName: string): void {
+    // Use an object URL for large data URIs and ensure the iframe fills the window.
+    const src = this.dataUrlToObjectUrl(pdfSrc);
+    const win = window.open('', '_blank');
+    if (win) {
+      win.document.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>${fileName}</title>
+            <meta charset="utf-8" />
+            <style>
+              html,body{height:100%;margin:0;padding:0}
+              iframe,embed{position:fixed;top:0;left:0;width:100%;height:100%;border:none}
+            </style>
+          </head>
+          <body>
+            <iframe src="${src}"></iframe>
+            <script>
+              // revoke blob URL when the window unloads to free memory
+              (function(){
+                try{ const s='${src}'; if(s.startsWith('blob:')){ window.addEventListener('unload', ()=>{ URL.revokeObjectURL(s); }); } }catch(e){}
+              })();
+            </script>
+          </body>
+        </html>
+      `);
+      win.document.close();
+    }
+  }
+
+  private dataUrlToObjectUrl(dataUrl: string): string {
+    // If already a normal URL, return as-is
+    if (!dataUrl.startsWith('data:')) return dataUrl;
+    try {
+      const parts = dataUrl.split(',');
+      const meta = parts[0];
+      const base64 = parts[1] || '';
+      const mimeMatch = meta.match(/data:([^;]+);/);
+      const mime = mimeMatch ? mimeMatch[1] : 'application/octet-stream';
+      const byteString = atob(base64);
+      const ab = new Uint8Array(byteString.length);
+      for (let i = 0; i < byteString.length; i++) {
+        ab[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([ab], { type: mime });
+      return URL.createObjectURL(blob);
+    } catch (e) {
+      // fallback to original data URL if conversion fails
+      return dataUrl;
+    }
   }
 
   onDeleteFile(fileId: string): void {
@@ -95,7 +281,7 @@ export class FolderDetailComponent implements OnInit {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = file.name;
+        a.download = file.displayName;
         a.click();
         window.URL.revokeObjectURL(url);
       },
@@ -105,5 +291,19 @@ export class FolderDetailComponent implements OnInit {
 
   backToWorkspace(): void {
     this.router.navigate(['/workspaces', this.workspaceId]);
+  }
+
+  onSearchQueryChange(query: string): void {
+    this.searchQuery = query;
+  }
+
+  getFilteredFiles(): FileEntity[] {
+    if (!this.files || !this.searchQuery.trim()) {
+      return this.files || [];
+    }
+    const query = this.searchQuery.toLowerCase().trim();
+    return this.files.filter(file => 
+      file.displayName?.toLowerCase().includes(query)
+    );
   }
 }

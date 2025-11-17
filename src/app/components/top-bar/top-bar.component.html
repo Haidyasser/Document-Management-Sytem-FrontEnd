@@ -1,14 +1,45 @@
 <header class="top-bar">
-  <div class="left">
-    <button class="hamburger" *ngIf="!sidebarOpen" (click)="onToggle()">☰</button>
-    <h2 class="title">Document Management</h2>
+  <div class="top-bar-left">
+    <button class="hamburger" *ngIf="!sidebarOpen" (click)="onToggle()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <h1 class="greeting" [class.offset-by-sidebar]="sidebarOpen">Hello {{ firstName }}</h1>
   </div>
 
-  <div class="right-icons">
-    <i class="fa fa-bell"></i>
-    <div class="user-info">
-      <span class="name">{{ userName }}</span>
-      <img src="https://i.pravatar.cc/40" alt="User" class="avatar">
+  <div class="top-bar-center">
+    <div class="search-container">
+      <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search anything here"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="onSearchChange()"
+        aria-label="Search"
+      />
+      <button class="filter-btn" title="Filter">
+        <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="top-bar-right">
+    <div class="new-menu" *ngIf="showNewButton" (click)="$event.stopPropagation()">
+      <button class="new-btn" (click)="toggleNewMenu()">
+        <span class="new-icon"><i class="fas fa-arrow-up-from-bracket" aria-hidden="true"></i></span>
+        <span class="new-text">New</span>
+        <i class="fas fa-chevron-down caret" aria-hidden="true"></i>
+      </button>
+      <div class="new-menu-list" *ngIf="showNewMenu">
+        <button class="new-menu-item" (click)="onSelectNew('file')">
+          <i class="fas fa-file-upload"></i>
+          <span>File</span>
+        </button>
+        <button class="new-menu-item" (click)="onSelectNew('folder')">
+          <i class="fas fa-folder-plus"></i>
+          <span>Folder</span>
+        </button>
+      </div>
     </div>
   </div>
 </header>

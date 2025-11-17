@@ -15,6 +15,7 @@ export interface FolderDialogData {
 @Component({
   selector: 'app-folder-dialog',
   templateUrl: './folder-dialog.html',
+  styleUrls: ['./folder-dialog.css'],
   standalone: true,
   imports: [
     CommonModule,

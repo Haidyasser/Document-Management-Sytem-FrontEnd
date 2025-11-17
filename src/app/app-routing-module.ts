@@ -7,14 +7,17 @@ import { CreateWorkspaceComponent } from './components/create-workspace/create-w
 import { authGuard } from './guards/auth.guard';
 import { WorkspaceDetailComponent } from './components/workspace-detail/workspace-detail';
 import { FolderDetailComponent } from './components/folder-detail/folder-detail';
+import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: '', component: HomeWorkspaceComponent, canActivate: [authGuard] },
   { path: 'create-workspace', component: CreateWorkspaceComponent, canActivate: [authGuard] },
+  { path: 'recent', component: RecentFilesComponent, canActivate: [authGuard] },
+  { path: 'deleted', component: RecentFilesComponent, canActivate: [authGuard] },
   { path: 'workspaces/:id', component: WorkspaceDetailComponent, canActivate: [authGuard] },
-  { path: 'folders/:workspaceId/:id', component: FolderDetailComponent, canActivate: [authGuard] },
+  { path: 'folders/:workspaceId/:id', component: WorkspaceDetailComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: 'login' }
 ];
 
