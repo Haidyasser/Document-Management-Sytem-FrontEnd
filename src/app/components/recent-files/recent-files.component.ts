@@ -114,7 +114,7 @@ export class RecentFilesComponent implements OnInit {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = file.name || 'download';
+        a.download = file.displayName || 'download';
         a.click();
         window.URL.revokeObjectURL(url);
       },
@@ -154,7 +154,7 @@ export class RecentFilesComponent implements OnInit {
       return true;
     }
     // Check by file extension as fallback
-    const fileName = file.name?.toLowerCase() || '';
+    const fileName = file.displayName?.toLowerCase() || '';
     return /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(fileName);
   }
 
@@ -164,7 +164,7 @@ export class RecentFilesComponent implements OnInit {
       return responseType;
     }
     // Fallback: determine MIME type from file extension
-    const fileName = file.name?.toLowerCase() || '';
+    const fileName = file.displayName?.toLowerCase() || '';
     if (fileName.endsWith('.png')) return 'image/png';
     if (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg')) return 'image/jpeg';
     if (fileName.endsWith('.gif')) return 'image/gif';
@@ -216,11 +216,11 @@ export class RecentFilesComponent implements OnInit {
           }
           
           console.log('Opening image preview:', imageSrc.substring(0, 50) + '...');
-          this.openImagePreview(imageSrc, file.name);
-        } else if (mimeType === 'application/pdf' || file.name?.toLowerCase().endsWith('.pdf')) {
+          this.openImagePreview(imageSrc, file.displayName);
+        } else if (mimeType === 'application/pdf' || file.displayName?.toLowerCase().endsWith('.pdf')) {
           const pdfBase64 = typeof base64Data === 'string' ? base64Data : '';
           const pdfSrc = pdfBase64.startsWith('data:') ? pdfBase64 : `data:application/pdf;base64,${pdfBase64}`;
-          this.openPdfPreview(pdfSrc, file.name);
+          this.openPdfPreview(pdfSrc, file.displayName);
         } else {
           alert('Preview not supported for this file type');
         }
@@ -245,7 +245,7 @@ export class RecentFilesComponent implements OnInit {
         const reader = new FileReader();
         reader.onloadend = () => {
           const imageSrc = reader.result as string;
-          this.openImagePreview(imageSrc, file.name);
+          this.openImagePreview(imageSrc, file.displayName);
         };
         reader.onerror = () => {
           console.error('Failed to read blob');
@@ -365,7 +365,7 @@ export class RecentFilesComponent implements OnInit {
     }
     const query = this.searchQuery.toLowerCase().trim();
     return this.files.filter(file => 
-      file.name?.toLowerCase().includes(query)
+      file.displayName?.toLowerCase().includes(query)
     );
   }
 }

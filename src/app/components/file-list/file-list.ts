@@ -54,7 +54,7 @@ export class FileListComponent {
   }
 
   private cacheKey(file: FileEntity): string {
-    return (file.id || file.name || JSON.stringify(file)).toString();
+    return (file.id || file.displayName || JSON.stringify(file)).toString();
   }
 
   getSharedFor(file: FileEntity): string[] {
@@ -96,7 +96,7 @@ export class FileListComponent {
       const subtype = type.split('/')[1];
       return (subtype || type).toUpperCase();
     }
-    const name = file?.name || '';
+    const name = file?.displayName || '';
     const dot = name.lastIndexOf('.');
     if (dot > -1 && dot < name.length - 1) {
       return name.substring(dot + 1).toUpperCase();

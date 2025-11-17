@@ -5,6 +5,8 @@ import { WorkspaceService } from '../../services/workspace.service';
 import { Workspace } from '../../models/workspace.model';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopBarComponent } from '../top-bar/top-bar.component';
+import { MatDialog } from '@angular/material/dialog';
+import { WorkspaceDialogComponent } from '../workspace-dialog/workspace-dialog';
 
 @Component({
   selector: 'app-home-workspace',
@@ -27,7 +29,11 @@ export class HomeWorkspaceComponent implements OnInit {
   expanded: Record<string | number, boolean> = {};
   openMenuIndex: number | null = null;
 
-  constructor(private ws: WorkspaceService, private router: Router) {}
+  constructor(
+    private ws: WorkspaceService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void { this.fetchWorkspaces(); }
 
@@ -85,10 +91,29 @@ export class HomeWorkspaceComponent implements OnInit {
 
   onEdit(ws: Workspace): void {
     this.openMenuIndex = null;
-    // Navigate to edit page or open edit dialog
-    if (ws.id) {
-      this.router.navigate(['/workspaces', ws.id, 'edit']);
-    }
+    if (!ws.id) return;
+
+    const dialogRef = this.dialog.open(WorkspaceDialogComponent, {
+      width: '500px',
+      data: {
+        workspace: ws,
+        mode: 'edit'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((updates: Partial<Workspace>) => {
+      if (updates && ws.id) {
+        this.ws.update(ws.id, updates).subscribe({
+          next: () => {
+            this.fetchWorkspaces();
+          },
+          error: (err) => {
+            console.error('Error updating workspace:', err);
+            this.error = 'Failed to update workspace';
+          }
+        });
+      }
+    });
   }
 
   onDelete(ws: Workspace): void {

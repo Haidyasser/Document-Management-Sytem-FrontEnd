@@ -88,7 +88,7 @@ export class WorkspaceDetailComponent implements OnInit {
       return true;
     }
     // Check by file extension as fallback
-    const fileName = file.name?.toLowerCase() || '';
+    const fileName = file.displayName?.toLowerCase() || '';
     return /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(fileName);
   }
 
@@ -98,7 +98,7 @@ export class WorkspaceDetailComponent implements OnInit {
       return responseType;
     }
     // Fallback: determine MIME type from file extension
-    const fileName = file.name?.toLowerCase() || '';
+    const fileName = file.displayName?.toLowerCase() || '';
     if (fileName.endsWith('.png')) return 'image/png';
     if (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg')) return 'image/jpeg';
     if (fileName.endsWith('.gif')) return 'image/gif';
@@ -141,11 +141,11 @@ export class WorkspaceDetailComponent implements OnInit {
           }
           
           console.log('Opening image preview:', imageSrc.substring(0, 50) + '...');
-          this.openImagePreview(imageSrc, file.name);
-        } else if (mimeType === 'application/pdf' || file.name?.toLowerCase().endsWith('.pdf')) {
+          this.openImagePreview(imageSrc, file.displayName);
+        } else if (mimeType === 'application/pdf' || file.displayName?.toLowerCase().endsWith('.pdf')) {
           const pdfBase64 = typeof base64Data === 'string' ? base64Data : '';
           const pdfSrc = pdfBase64.startsWith('data:') ? pdfBase64 : `data:application/pdf;base64,${pdfBase64}`;
-          this.openPdfPreview(pdfSrc, file.name);
+          this.openPdfPreview(pdfSrc, file.displayName);
         } else {
           alert('Preview not supported for this file type');
         }
@@ -170,7 +170,7 @@ export class WorkspaceDetailComponent implements OnInit {
         const reader = new FileReader();
         reader.onloadend = () => {
           const imageSrc = reader.result as string;
-          this.openImagePreview(imageSrc, file.name);
+          this.openImagePreview(imageSrc, file.displayName);
         };
         reader.onerror = () => {
           console.error('Failed to read blob');
@@ -220,18 +220,52 @@ export class WorkspaceDetailComponent implements OnInit {
   }
 
   private openPdfPreview(pdfSrc: string, fileName: string): void {
+    // Convert large data URLs to object URLs and ensure the iframe fills the window
+    const src = this.dataUrlToObjectUrl(pdfSrc);
     const win = window.open('', '_blank');
     if (win) {
       win.document.write(`
         <!DOCTYPE html>
         <html>
-          <head><title>${fileName}</title></head>
-          <body style="margin:0;padding:0;">
-            <iframe src="${pdfSrc}" width="100%" height="100%" style="border:none;"></iframe>
+          <head>
+            <title>${fileName}</title>
+            <meta charset="utf-8" />
+            <style>
+              html,body{height:100%;margin:0;padding:0}
+              iframe,embed{position:fixed;top:0;left:0;width:100%;height:100%;border:none}
+            </style>
+          </head>
+          <body>
+            <iframe src="${src}"></iframe>
+            <script>
+              (function(){
+                try{ const s='${src}'; if(s.startsWith('blob:')){ window.addEventListener('unload', ()=>{ URL.revokeObjectURL(s); }); } }catch(e){}
+              })();
+            </script>
           </body>
         </html>
       `);
       win.document.close();
+    }
+  }
+
+  private dataUrlToObjectUrl(dataUrl: string): string {
+    if (!dataUrl.startsWith('data:')) return dataUrl;
+    try {
+      const parts = dataUrl.split(',');
+      const meta = parts[0];
+      const base64 = parts[1] || '';
+      const mimeMatch = meta.match(/data:([^;]+);/);
+      const mime = mimeMatch ? mimeMatch[1] : 'application/octet-stream';
+      const byteString = atob(base64);
+      const ab = new Uint8Array(byteString.length);
+      for (let i = 0; i < byteString.length; i++) {
+        ab[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([ab], { type: mime });
+      return URL.createObjectURL(blob);
+    } catch (e) {
+      return dataUrl;
     }
   }
 
@@ -312,7 +346,7 @@ export class WorkspaceDetailComponent implements OnInit {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = file.name;
+        a.download = file.displayName;
         a.click();
         window.URL.revokeObjectURL(url);
       },
@@ -392,7 +426,7 @@ export class WorkspaceDetailComponent implements OnInit {
     }
     const query = this.searchQuery.toLowerCase().trim();
     return this.workspace.files.filter(file => 
-      file.name?.toLowerCase().includes(query)
+      file.displayName?.toLowerCase().includes(query)
     );
   }
 

@@ -1,6 +1,6 @@
 export interface FileEntity {
   id?: string;
-  name: string;
+  displayName: string;
   type: string;
   path: string;
   createdAt?: Date;

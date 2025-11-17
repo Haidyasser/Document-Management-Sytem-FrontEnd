@@ -3,7 +3,7 @@ import { Folder } from "./folder.model";
 
 export interface Workspace {
   id?: string;
-  name: string;
+  name?: string;
   description?: string;
   parentId?: string;
   type?: string;
